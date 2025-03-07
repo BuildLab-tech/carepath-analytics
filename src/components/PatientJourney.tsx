@@ -97,8 +97,8 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
       });
 
   return (
-    <div className="container px-4 py-6 mx-auto h-[calc(100vh-2rem)]">
-      <div className="flex flex-col h-full">
+    <div className="container px-4 py-6 mx-auto h-screen overflow-y-auto">
+      <div className="flex flex-col">
         <header className="mb-6">
           <h1 className="text-2xl font-medium tracking-tight">Patient Journey Dashboard</h1>
           <p className="text-muted-foreground mt-1">
@@ -116,9 +116,9 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
         <PatientStats filteredPatients={filteredPatients} />
         
         {/* Main content grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1 overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {/* Patient List Section with filters */}
-          <div className="flex flex-col space-y-6 h-full overflow-hidden">
+          <div className="flex flex-col space-y-6 h-[calc(100vh-24rem)]">
             <PatientFilter 
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
@@ -137,7 +137,7 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
           </div>
           
           {/* Patient Detail Column */}
-          <div className="md:col-span-2 flex flex-col h-full overflow-hidden">
+          <div className="md:col-span-2 flex flex-col h-[calc(100vh-24rem)]">
             {selectedPatient && (!isMobile || (isMobile && mobileView === 'detail')) && (
               <PatientDetail
                 patient={selectedPatient}

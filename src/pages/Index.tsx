@@ -8,7 +8,7 @@ const Index = () => {
   const [dateFilter, setDateFilter] = useState("all");
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/30">
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted/30 overflow-x-hidden">
       <PatientJourney 
         patientId={selectedPatientId} 
         dateFilter={dateFilter}
@@ -19,4 +19,3 @@ const Index = () => {
 };
 
 export default Index;
-
