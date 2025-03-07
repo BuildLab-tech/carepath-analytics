@@ -100,50 +100,64 @@ export function HorizontalTimeline({ steps, onStepClick }: HorizontalTimelinePro
         return "bg-gray-200";
     }
   };
+
+  const getConnectorColor = (status: StepStatus) => {
+    switch (status) {
+      case "completed":
+        return "bg-green-500";
+      case "active":
+        return "bg-blue-500";
+      case "skipped":
+      case "upcoming":
+        return "bg-gray-200";
+    }
+  };
   
   return (
     <>
       <div className="relative mt-4">
-        <div className="space-y-5">
-          {steps.map((step, index) => (
-            <div key={step.id} className="flex items-start gap-4">
-              {/* Step Indicator */}
-              <button
-                className={cn(
-                  "w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200 border-2 relative shrink-0",
-                  step.status === "completed" ? "border-green-500 bg-green-50" :
-                  step.status === "active" ? "border-blue-500 bg-blue-50 animate-pulse" :
-                  step.status === "skipped" ? "border-gray-300 bg-gray-50" :
-                  "border-gray-200 bg-gray-50"
-                )}
-                onClick={() => handleStepClick(step)}
-              >
-                {getStatusIcon(step.status)}
-              </button>
+        <div className="w-full">
+          {/* Horizontal timeline for steps */}
+          <div className="flex items-start overflow-x-auto pb-4 pt-2 mb-2 timeline-scroll">
+            {steps.map((step, index) => (
+              <div key={step.id} className="flex flex-col items-center min-w-[120px] first:ml-2 last:mr-2 relative">
+                {/* Step Ball */}
+                <button
+                  className={cn(
+                    "w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200 border-2 relative z-10",
+                    step.status === "completed" ? "border-green-500 bg-green-50" :
+                    step.status === "active" ? "border-blue-500 bg-blue-50 animate-pulse" :
+                    step.status === "skipped" ? "border-gray-300 bg-gray-50" :
+                    "border-gray-200 bg-gray-50"
+                  )}
+                  onClick={() => handleStepClick(step)}
+                >
+                  {getStatusIcon(step.status)}
+                </button>
 
-              {/* Step Details */}
-              <div className="flex flex-col">
+                {/* Connector Line */}
+                {index < steps.length - 1 && (
+                  <div className="h-0.5 w-[calc(100%-10px)] absolute top-5 left-[calc(50%+5px)] z-0">
+                    <div
+                      className={`h-full ${getConnectorColor(step.status)}`}
+                    ></div>
+                  </div>
+                )}
+
                 {/* Step Label */}
-                <div className="text-sm font-medium">
+                <div className="mt-2 text-center text-xs font-medium w-full px-1">
                   {step.name}
                 </div>
 
                 {/* Step Date */}
                 {step.timestamp && (
-                  <div className="text-xs text-gray-500">
+                  <div className="mt-1 text-center text-xs text-gray-500">
                     {format(new Date(step.timestamp), "MMM d, h:mm a")}
                   </div>
                 )}
-
-                {/* Step Details (when available) */}
-                {step.details && (
-                  <div className="mt-1 text-xs text-gray-600 max-w-md">
-                    {step.details}
-                  </div>
-                )}
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
