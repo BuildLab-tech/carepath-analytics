@@ -1,14 +1,10 @@
 
 import React from "react";
-import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { MessageSquare, Calendar } from "lucide-react";
 
 interface PatientFilterProps {
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
   campaignType: string;
   setCampaignType: (type: string) => void;
   dateFilter: string;
@@ -16,8 +12,6 @@ interface PatientFilterProps {
 }
 
 export function PatientFilter({
-  searchQuery,
-  setSearchQuery,
   campaignType,
   setCampaignType,
   dateFilter,

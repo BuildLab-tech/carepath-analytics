@@ -63,16 +63,14 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
     setMobileView('list');
   };
 
-  // Filter patients based on contextId and search query
+  // First filter patients based on contextId
   const filteredByContext = localContextId
     ? patients.filter(p => 
-        p.name.toLowerCase().includes(localContextId.toLowerCase()) || 
-        p.contactInfo.email.toLowerCase().includes(localContextId.toLowerCase()) ||
         p.id.includes(localContextId)
       )
     : patients;
 
-  // Apply additional filters
+  // Then apply additional search filters to the context-filtered results
   const filteredBySearch = filteredByContext.filter(patient => 
     patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     patient.contactInfo.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -108,20 +106,18 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
       
       {/* Search and Filter Section - More compact */}
       <Card className="p-3 mb-4 border shadow-sm bg-white/50 backdrop-blur-sm">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {/* Context ID search */}
-          <div className="md:col-span-2">
-            <ContextSearch 
-              contextId={localContextId} 
-              setContextId={setLocalContextId} 
-            />
-          </div>
+        <div className="space-y-3">
+          {/* Context ID and Patient search */}
+          <ContextSearch 
+            contextId={localContextId} 
+            setContextId={setLocalContextId}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
           
-          {/* Filters */}
+          {/* Campaign and Date Filters */}
           <div>
             <PatientFilter 
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
               campaignType={campaignType}
               setCampaignType={setCampaignType}
               dateFilter={localDateFilter}
@@ -131,18 +127,18 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
         </div>
       </Card>
       
-      {/* Stats Cards Section - More compact */}
+      {/* Stats Cards Section */}
       <div className="mb-4">
         <PatientStats filteredPatients={filteredPatients} />
       </div>
       
-      {/* Main content grid - Adjusted height to prevent overflow */}
+      {/* Main content grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1 min-h-0 overflow-hidden">
         {/* Patient List Section */}
         <div className="flex flex-col h-full bg-white/50 rounded-lg border p-3 shadow-sm overflow-hidden">
           <h2 className="text-base font-medium mb-2">Patient List</h2>
           
-          {/* Patient list - Now with proper overflow handling */}
+          {/* Patient list */}
           <div className="flex-1 overflow-hidden min-h-0">
             <PatientListContainer 
               patients={filteredPatients}
