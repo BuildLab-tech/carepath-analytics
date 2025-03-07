@@ -1,5 +1,6 @@
+
 import { useState, useEffect } from "react";
-import { patients, Patient, getPatientById } from "@/lib/mockData";
+import { patients, Patient, getPatientById, Journey } from "@/lib/mockData";
 import { PatientList } from "@/components/PatientList";
 import { HorizontalTimeline } from "@/components/HorizontalTimeline";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,11 +13,28 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-export function PatientJourney() {
-  const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
+interface PatientJourneyProps {
+  patientId: string | null;
+  dateFilter: string;
+}
+
+export function PatientJourney({ patientId, dateFilter }: PatientJourneyProps) {
+  const [selectedPatientId, setSelectedPatientId] = useState<string | null>(patientId);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
   const [mobileView, setMobileView] = useState<'list' | 'detail'>('list');
+  const [localDateFilter, setLocalDateFilter] = useState(dateFilter);
   const isMobile = useIsMobile();
+
+  // Update selected patient when ID changes
+  useEffect(() => {
+    if (patientId) {
+      setSelectedPatientId(patientId);
+    }
+  }, [patientId]);
+
+  useEffect(() => {
+    setLocalDateFilter(dateFilter);
+  }, [dateFilter]);
 
   // Update selected patient when ID changes
   useEffect(() => {
@@ -76,6 +94,8 @@ export function PatientJourney() {
                 patients={patients}
                 selectedPatientId={selectedPatientId}
                 onSelectPatient={handleSelectPatient}
+                dateFilter={localDateFilter}
+                setDateFilter={setLocalDateFilter}
               />
             </div>
           )}
@@ -139,13 +159,13 @@ export function PatientJourney() {
                 <ScrollArea className="flex-1">
                   <TabsContent value="all" className="m-0 space-y-6 pt-1 pb-4">
                     {selectedPatient.journeys.map((journey) => (
-                      <HorizontalTimeline key={journey.id} journey={journey} />
+                      <HorizontalTimeline key={journey.id} steps={journey.steps} />
                     ))}
                   </TabsContent>
                   
                   <TabsContent value="active" className="m-0 space-y-6 pt-1 pb-4">
                     {selectedPatient.journeys.filter(j => j.status === 'active').map((journey) => (
-                      <HorizontalTimeline key={journey.id} journey={journey} />
+                      <HorizontalTimeline key={journey.id} steps={journey.steps} />
                     ))}
                     
                     {selectedPatient.journeys.filter(j => j.status === 'active').length === 0 && (
@@ -157,7 +177,7 @@ export function PatientJourney() {
                   
                   <TabsContent value="completed" className="m-0 space-y-6 pt-1 pb-4">
                     {selectedPatient.journeys.filter(j => j.status === 'completed').map((journey) => (
-                      <HorizontalTimeline key={journey.id} journey={journey} />
+                      <HorizontalTimeline key={journey.id} steps={journey.steps} />
                     ))}
                     
                     {selectedPatient.journeys.filter(j => j.status === 'completed').length === 0 && (
