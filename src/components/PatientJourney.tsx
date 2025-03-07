@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { patients, Patient, getPatientById, Journey } from "@/lib/mockData";
 import { PatientCard } from "@/components/PatientCard";
