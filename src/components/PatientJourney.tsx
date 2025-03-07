@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { patients, Patient, getPatientById } from "@/lib/mockData";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -104,19 +103,18 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
         </p>
       </header>
       
-      {/* Search and Filter Section - More compact */}
+      {/* Compact Search and Filter Section */}
       <Card className="p-3 mb-4 border shadow-sm bg-white/50 backdrop-blur-sm">
-        <div className="space-y-3">
-          {/* Context ID and Patient search */}
-          <ContextSearch 
-            contextId={localContextId} 
-            setContextId={setLocalContextId}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
-          
-          {/* Campaign and Date Filters */}
-          <div>
+        <div className="flex flex-col md:flex-row gap-3">
+          <div className="md:w-3/5">
+            <ContextSearch 
+              contextId={localContextId} 
+              setContextId={setLocalContextId}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
+          </div>
+          <div className="md:w-2/5">
             <PatientFilter 
               campaignType={campaignType}
               setCampaignType={setCampaignType}
