@@ -33,8 +33,8 @@ export function PatientCard({ patient, selected, onClick }: PatientCardProps) {
       )}
       onClick={onClick}
     >
-      <CardHeader className="pb-1 flex flex-row items-center space-x-3 space-y-0 px-4 pt-3">
-        <Avatar className="h-10 w-10 transition-all">
+      <CardHeader className="pb-2 flex flex-row items-center space-x-4 space-y-0">
+        <Avatar className="h-12 w-12 transition-all">
           <AvatarImage 
             src={patient.avatar} 
             alt={patient.name} 
@@ -43,13 +43,13 @@ export function PatientCard({ patient, selected, onClick }: PatientCardProps) {
           <AvatarFallback>{getInitials(patient.name)}</AvatarFallback>
         </Avatar>
         <div>
-          <CardTitle className="text-sm font-medium">{patient.name}</CardTitle>
-          <CardDescription className="flex items-center text-xs mt-0.5">
+          <CardTitle className="text-base font-medium">{patient.name}</CardTitle>
+          <CardDescription className="flex items-center text-xs mt-1">
             <User className="h-3 w-3 mr-1" /> {patient.age}, {patient.gender}
           </CardDescription>
         </div>
       </CardHeader>
-      <CardContent className="px-4 py-2">
+      <CardContent>
         <div className="text-xs text-muted-foreground space-y-1">
           <div className="flex items-center">
             <Mail className="h-3 w-3 mr-1.5" /> 
@@ -61,7 +61,7 @@ export function PatientCard({ patient, selected, onClick }: PatientCardProps) {
           </div>
         </div>
         
-        <div className="flex items-center mt-2 justify-between">
+        <div className="flex items-center mt-3 justify-between">
           <div className="text-xs font-medium">{patient.journeys.length} Journeys</div>
           {activeJourneys > 0 && (
             <Badge variant="outline" className="text-xs bg-blue-50 text-blue-700 border-blue-200">

@@ -24,14 +24,14 @@ export function PatientFilter({
   setDateFilter
 }: PatientFilterProps) {
   return (
-    <div className="space-y-2">
-      <Label htmlFor="filter-section" className="text-xs font-medium">Filter Options</Label>
-      <div className="grid grid-cols-2 gap-2">
+    <div className="space-y-3">
+      <Label htmlFor="filter-section" className="text-sm font-medium">Filter Options</Label>
+      <div className="grid grid-cols-2 gap-3">
         {/* Campaign type filter */}
         <div>
           <Select value={campaignType} onValueChange={setCampaignType}>
-            <SelectTrigger id="campaign-type" className="text-xs h-8 bg-white/80 border-gray-200">
-              <MessageSquare className="h-3 w-3 mr-1" />
+            <SelectTrigger id="campaign-type" className="text-xs h-9 bg-white/80 border-gray-200">
+              <MessageSquare className="h-3 w-3 mr-1.5" />
               <SelectValue placeholder="All Types" />
             </SelectTrigger>
             <SelectContent>
@@ -46,8 +46,8 @@ export function PatientFilter({
         {/* Date filter */}
         <div>
           <Select value={dateFilter} onValueChange={setDateFilter}>
-            <SelectTrigger id="date-filter" className="text-xs h-8 bg-white/80 border-gray-200">
-              <Calendar className="h-3 w-3 mr-1" />
+            <SelectTrigger id="date-filter" className="text-xs h-9 bg-white/80 border-gray-200">
+              <Calendar className="h-3 w-3 mr-1.5" />
               <SelectValue placeholder="All Time" />
             </SelectTrigger>
             <SelectContent>
