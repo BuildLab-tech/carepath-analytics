@@ -12,7 +12,7 @@ interface JourneyTabsProps {
 
 export function JourneyTabs({ journeys }: JourneyTabsProps) {
   return (
-    <Tabs defaultValue="all" className="flex-1 flex flex-col h-full overflow-hidden">
+    <Tabs defaultValue="all" className="flex-1 flex flex-col h-full">
       <TabsList className="mb-4">
         <TabsTrigger value="all">All Journeys</TabsTrigger>
         <TabsTrigger value="active">Active</TabsTrigger>
@@ -20,8 +20,8 @@ export function JourneyTabs({ journeys }: JourneyTabsProps) {
       </TabsList>
       
       {/* All journeys tab */}
-      <TabsContent value="all" className="m-0 pt-1 flex-1 h-full overflow-hidden">
-        <ScrollArea className="h-full">
+      <TabsContent value="all" className="m-0 pt-1 flex-1 h-full">
+        <ScrollArea className="h-full w-full">
           <div className="space-y-6 pb-4 pr-4">
             {journeys.map((journey) => (
               <div key={journey.id} className="mb-6">
@@ -47,8 +47,8 @@ export function JourneyTabs({ journeys }: JourneyTabsProps) {
       </TabsContent>
       
       {/* Active journeys tab */}
-      <TabsContent value="active" className="m-0 pt-1 flex-1 h-full overflow-hidden">
-        <ScrollArea className="h-full">
+      <TabsContent value="active" className="m-0 pt-1 flex-1 h-full">
+        <ScrollArea className="h-full w-full">
           <div className="space-y-6 pb-4 pr-4">
             {journeys.filter(j => j.status === 'active').map((journey) => (
               <div key={journey.id} className="mb-6">
@@ -74,8 +74,8 @@ export function JourneyTabs({ journeys }: JourneyTabsProps) {
       </TabsContent>
       
       {/* Completed journeys tab */}
-      <TabsContent value="completed" className="m-0 pt-1 flex-1 h-full overflow-hidden">
-        <ScrollArea className="h-full">
+      <TabsContent value="completed" className="m-0 pt-1 flex-1 h-full">
+        <ScrollArea className="h-full w-full">
           <div className="space-y-6 pb-4 pr-4">
             {journeys.filter(j => j.status === 'completed').map((journey) => (
               <div key={journey.id} className="mb-6">

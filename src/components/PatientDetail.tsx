@@ -15,7 +15,7 @@ interface PatientDetailProps {
 
 export function PatientDetail({ patient, isMobile, handleBackToList }: PatientDetailProps) {
   return (
-    <div className="flex flex-col h-full overflow-hidden animate-fade-in">
+    <div className="flex flex-col h-full animate-fade-in">
       {/* Mobile Back Button */}
       {isMobile && (
         <Button 
@@ -32,7 +32,7 @@ export function PatientDetail({ patient, isMobile, handleBackToList }: PatientDe
       <PatientDetailHeader patient={patient} />
       
       {/* Journey Tabs */}
-      <div className="flex flex-col overflow-hidden flex-1 mt-4">
+      <div className="flex flex-col flex-1 mt-4 overflow-hidden">
         <h2 className="text-lg font-medium mb-4 flex items-center">
           Patient Journeys
           <Badge className="ml-2 bg-primary/10 text-primary border-primary/20">
