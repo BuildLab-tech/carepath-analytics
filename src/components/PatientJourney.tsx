@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { patients, Patient, getPatientById } from "@/lib/mockData";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -62,14 +63,16 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
     setMobileView('list');
   };
 
-  // First filter patients based on contextId
+  // Filter patients based on contextId and search query
   const filteredByContext = localContextId
     ? patients.filter(p => 
+        p.name.toLowerCase().includes(localContextId.toLowerCase()) || 
+        p.contactInfo.email.toLowerCase().includes(localContextId.toLowerCase()) ||
         p.id.includes(localContextId)
       )
     : patients;
 
-  // Then apply additional search filters to the context-filtered results
+  // Apply additional filters
   const filteredBySearch = filteredByContext.filter(patient => 
     patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     patient.contactInfo.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -103,19 +106,22 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
         </p>
       </header>
       
-      {/* Compact Search and Filter Section */}
+      {/* Search and Filter Section - More compact */}
       <Card className="p-3 mb-4 border shadow-sm bg-white/50 backdrop-blur-sm">
-        <div className="flex flex-col md:flex-row gap-3">
-          <div className="md:w-3/5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {/* Context ID search */}
+          <div className="md:col-span-2">
             <ContextSearch 
               contextId={localContextId} 
-              setContextId={setLocalContextId}
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
+              setContextId={setLocalContextId} 
             />
           </div>
-          <div className="md:w-2/5">
+          
+          {/* Filters */}
+          <div>
             <PatientFilter 
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
               campaignType={campaignType}
               setCampaignType={setCampaignType}
               dateFilter={localDateFilter}
@@ -125,18 +131,18 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
         </div>
       </Card>
       
-      {/* Stats Cards Section */}
+      {/* Stats Cards Section - More compact */}
       <div className="mb-4">
         <PatientStats filteredPatients={filteredPatients} />
       </div>
       
-      {/* Main content grid */}
+      {/* Main content grid - Adjusted height to prevent overflow */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1 min-h-0 overflow-hidden">
         {/* Patient List Section */}
         <div className="flex flex-col h-full bg-white/50 rounded-lg border p-3 shadow-sm overflow-hidden">
           <h2 className="text-base font-medium mb-2">Patient List</h2>
           
-          {/* Patient list */}
+          {/* Patient list - Now with proper overflow handling */}
           <div className="flex-1 overflow-hidden min-h-0">
             <PatientListContainer 
               patients={filteredPatients}
