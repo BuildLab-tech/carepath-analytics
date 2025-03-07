@@ -33,16 +33,18 @@ export function PatientDetail({ patient, isMobile, handleBackToList }: PatientDe
       <PatientDetailHeader patient={patient} />
       
       {/* Journey Tabs */}
-      <h2 className="text-lg font-medium mb-4 flex items-center">
-        Patient Journeys
-        <Badge className="ml-2 bg-primary/10 text-primary border-primary/20">
-          {patient.journeys.length}
-        </Badge>
-      </h2>
-      
-      <ScrollArea className="flex-1 overflow-auto pr-2">
-        <JourneyTabs journeys={patient.journeys} />
-      </ScrollArea>
+      <div className="flex flex-col flex-1 overflow-hidden">
+        <h2 className="text-lg font-medium mb-4 flex items-center">
+          Patient Journeys
+          <Badge className="ml-2 bg-primary/10 text-primary border-primary/20">
+            {patient.journeys.length}
+          </Badge>
+        </h2>
+        
+        <div className="flex-1 min-h-0 overflow-hidden">
+          <JourneyTabs journeys={patient.journeys} />
+        </div>
+      </div>
     </div>
   );
 }

@@ -97,28 +97,32 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
       });
 
   return (
-    <div className="container px-4 py-6 mx-auto max-h-screen overflow-hidden">
-      <div className="flex flex-col h-[calc(100vh-3rem)]">
-        <header className="mb-6">
-          <h1 className="text-2xl font-medium tracking-tight">Patient Journey Dashboard</h1>
-          <p className="text-muted-foreground mt-1">
-            View and track patient journeys across different campaign types
-          </p>
-        </header>
-        
-        {/* Context ID search */}
+    <div className="container px-4 py-6 mx-auto h-screen flex flex-col overflow-hidden">
+      <header className="mb-4 flex-shrink-0">
+        <h1 className="text-2xl font-medium tracking-tight">Patient Journey Dashboard</h1>
+        <p className="text-muted-foreground mt-1">
+          View and track patient journeys across different campaign types
+        </p>
+      </header>
+      
+      {/* Context ID search */}
+      <div className="mb-4 flex-shrink-0">
         <ContextSearch 
           contextId={localContextId} 
           setContextId={setLocalContextId} 
         />
-        
-        {/* Stats Cards Section */}
+      </div>
+      
+      {/* Stats Cards Section */}
+      <div className="mb-4 flex-shrink-0">
         <PatientStats filteredPatients={filteredPatients} />
-        
-        {/* Main content grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 overflow-hidden flex-1 mt-6">
-          {/* Patient List Section with filters */}
-          <div className="flex flex-col space-y-4 h-full max-h-full overflow-hidden">
+      </div>
+      
+      {/* Main content grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1 min-h-0 overflow-hidden">
+        {/* Patient List Section with filters */}
+        <div className="flex flex-col h-full overflow-hidden">
+          <div className="mb-3 flex-shrink-0">
             <PatientFilter 
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
@@ -127,39 +131,39 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
               dateFilter={localDateFilter}
               setDateFilter={setLocalDateFilter}
             />
+          </div>
 
-            {/* Patient list */}
-            <div className="flex-1 overflow-hidden">
-              <PatientListContainer 
-                patients={filteredPatients}
-                selectedPatientId={selectedPatientId}
-                onSelectPatient={handleSelectPatient}
-              />
-            </div>
+          {/* Patient list */}
+          <div className="flex-1 min-h-0 overflow-hidden">
+            <PatientListContainer 
+              patients={filteredPatients}
+              selectedPatientId={selectedPatientId}
+              onSelectPatient={handleSelectPatient}
+            />
           </div>
+        </div>
+        
+        {/* Patient Detail Column */}
+        <div className="md:col-span-2 flex flex-col h-full min-h-0 overflow-hidden">
+          {selectedPatient && (!isMobile || (isMobile && mobileView === 'detail')) && (
+            <PatientDetail
+              patient={selectedPatient}
+              isMobile={isMobile}
+              handleBackToList={handleBackToList}
+            />
+          )}
           
-          {/* Patient Detail Column */}
-          <div className="md:col-span-2 flex flex-col h-full max-h-full overflow-hidden">
-            {selectedPatient && (!isMobile || (isMobile && mobileView === 'detail')) && (
-              <PatientDetail
-                patient={selectedPatient}
-                isMobile={isMobile}
-                handleBackToList={handleBackToList}
-              />
-            )}
-            
-            {/* Empty State */}
-            {!selectedPatient && (
-              <div className="flex items-center justify-center h-full">
-                <div className="text-center max-w-md mx-auto">
-                  <h3 className="text-lg font-medium mb-2">No Patient Selected</h3>
-                  <p className="text-muted-foreground">
-                    Select a patient from the list to view their journey details
-                  </p>
-                </div>
+          {/* Empty State */}
+          {!selectedPatient && (
+            <div className="flex items-center justify-center h-full">
+              <div className="text-center max-w-md mx-auto">
+                <h3 className="text-lg font-medium mb-2">No Patient Selected</h3>
+                <p className="text-muted-foreground">
+                  Select a patient from the list to view their journey details
+                </p>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

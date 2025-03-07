@@ -16,23 +16,25 @@ export function PatientListContainer({
   onSelectPatient 
 }: PatientListContainerProps) {
   return (
-    <ScrollArea className="h-full pr-2">
-      <div className="space-y-3 pr-3">
-        {patients.map((patient) => (
-          <PatientCard
-            key={patient.id}
-            patient={patient}
-            selected={selectedPatientId === patient.id}
-            onClick={() => onSelectPatient(patient.id)}
-          />
-        ))}
-        
-        {patients.length === 0 && (
-          <div className="text-center py-8 text-muted-foreground">
-            No patients found
-          </div>
-        )}
-      </div>
-    </ScrollArea>
+    <div className="h-full overflow-hidden">
+      <ScrollArea className="h-full">
+        <div className="space-y-3 pr-4 pb-4">
+          {patients.map((patient) => (
+            <PatientCard
+              key={patient.id}
+              patient={patient}
+              selected={selectedPatientId === patient.id}
+              onClick={() => onSelectPatient(patient.id)}
+            />
+          ))}
+          
+          {patients.length === 0 && (
+            <div className="text-center py-8 text-muted-foreground">
+              No patients found
+            </div>
+          )}
+        </div>
+      </ScrollArea>
+    </div>
   );
 }
