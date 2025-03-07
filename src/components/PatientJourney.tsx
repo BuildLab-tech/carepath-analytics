@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { patients, Patient, getPatientById } from "@/lib/mockData";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -8,7 +7,7 @@ import { PatientListContainer } from "@/components/PatientListContainer";
 import { PatientDetail } from "@/components/PatientDetail";
 import { ContextSearch } from "@/components/ContextSearch";
 import { Card } from "@/components/ui/card";
-import { IDCard } from "lucide-react";
+import { IdCard } from "lucide-react";
 
 interface PatientJourneyProps {
   patientId: string | null;
@@ -120,7 +119,7 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
               setContextId={setPatientIdSearch}
               label="Patient ID"
               placeholder="Search by patient ID..."
-              icon={<IDCard className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />}
+              icon={<IdCard className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />}
             />
           </div>
           
