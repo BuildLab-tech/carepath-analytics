@@ -6,6 +6,7 @@ import { ChevronLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { PatientDetailHeader } from "@/components/PatientDetailHeader";
 import { JourneyTabs } from "@/components/JourneyTabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface PatientDetailProps {
   patient: Patient;
@@ -39,7 +40,9 @@ export function PatientDetail({ patient, isMobile, handleBackToList }: PatientDe
         </Badge>
       </h2>
       
-      <JourneyTabs journeys={patient.journeys} />
+      <ScrollArea className="flex-1 overflow-auto pr-2">
+        <JourneyTabs journeys={patient.journeys} />
+      </ScrollArea>
     </div>
   );
 }

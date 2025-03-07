@@ -16,7 +16,7 @@ export function PatientListContainer({
   onSelectPatient 
 }: PatientListContainerProps) {
   return (
-    <ScrollArea className="flex-1 h-full">
+    <ScrollArea className="h-full pr-2">
       <div className="space-y-3 pr-3">
         {patients.map((patient) => (
           <PatientCard

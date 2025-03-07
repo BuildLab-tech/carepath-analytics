@@ -97,8 +97,8 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
       });
 
   return (
-    <div className="container px-4 py-6 mx-auto h-screen overflow-y-auto">
-      <div className="flex flex-col">
+    <div className="container px-4 py-6 mx-auto max-h-screen overflow-hidden">
+      <div className="flex flex-col h-[calc(100vh-3rem)]">
         <header className="mb-6">
           <h1 className="text-2xl font-medium tracking-tight">Patient Journey Dashboard</h1>
           <p className="text-muted-foreground mt-1">
@@ -116,9 +116,9 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
         <PatientStats filteredPatients={filteredPatients} />
         
         {/* Main content grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 overflow-hidden flex-1 mt-6">
           {/* Patient List Section with filters */}
-          <div className="flex flex-col space-y-6 h-[calc(100vh-24rem)]">
+          <div className="flex flex-col space-y-4 h-full max-h-full overflow-hidden">
             <PatientFilter 
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
@@ -129,15 +129,17 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
             />
 
             {/* Patient list */}
-            <PatientListContainer 
-              patients={filteredPatients}
-              selectedPatientId={selectedPatientId}
-              onSelectPatient={handleSelectPatient}
-            />
+            <div className="flex-1 overflow-hidden">
+              <PatientListContainer 
+                patients={filteredPatients}
+                selectedPatientId={selectedPatientId}
+                onSelectPatient={handleSelectPatient}
+              />
+            </div>
           </div>
           
           {/* Patient Detail Column */}
-          <div className="md:col-span-2 flex flex-col h-[calc(100vh-24rem)]">
+          <div className="md:col-span-2 flex flex-col h-full max-h-full overflow-hidden">
             {selectedPatient && (!isMobile || (isMobile && mobileView === 'detail')) && (
               <PatientDetail
                 patient={selectedPatient}
