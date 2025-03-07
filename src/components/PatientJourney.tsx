@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { patients, Patient, getPatientById } from "@/lib/mockData";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -112,24 +113,24 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
       {/* Search and Filter Section - All in one row */}
       <Card className="p-4 mb-6 border shadow-sm bg-white/50 backdrop-blur-sm">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-          {/* Patient ID search */}
+          {/* Context ID search */}
           <div className="md:col-span-3">
             <ContextSearch 
               contextId={patientIdSearch} 
               setContextId={setPatientIdSearch}
-              label="Patient ID"
-              placeholder="Search by patient ID..."
+              label="Context ID"
+              placeholder="Search by context ID..."
               icon={<IdCard className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />}
             />
           </div>
           
-          {/* General search */}
+          {/* Patient ID search */}
           <div className="md:col-span-5">
             <ContextSearch 
               contextId={localContextId} 
               setContextId={setLocalContextId}
-              label="Patient Information"
-              placeholder="Search by name, email..."
+              label="Patient ID"
+              placeholder="Search by patient ID..."
             />
           </div>
           
