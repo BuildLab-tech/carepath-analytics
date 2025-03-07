@@ -8,6 +8,7 @@ import { PatientListContainer } from "@/components/PatientListContainer";
 import { PatientDetail } from "@/components/PatientDetail";
 import { ContextSearch } from "@/components/ContextSearch";
 import { Card } from "@/components/ui/card";
+import { IDCard } from "lucide-react";
 
 interface PatientJourneyProps {
   patientId: string | null;
@@ -23,6 +24,7 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
   const [searchQuery, setSearchQuery] = useState("");
   const [campaignType, setCampaignType] = useState("all");
   const [localContextId, setLocalContextId] = useState(contextId);
+  const [patientIdSearch, setPatientIdSearch] = useState("");
   const isMobile = useIsMobile();
 
   // Update state when props change
@@ -63,21 +65,23 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
     setMobileView('list');
   };
 
-  // Filter patients based on contextId and search query
-  const filteredByContext = localContextId
-    ? patients.filter(p => 
-        p.name.toLowerCase().includes(localContextId.toLowerCase()) || 
-        p.contactInfo.email.toLowerCase().includes(localContextId.toLowerCase()) ||
-        p.id.includes(localContextId)
-      )
+  // Filter patients based on contextId, patientIdSearch and search query
+  const filteredByPatientId = patientIdSearch
+    ? patients.filter(p => p.id.includes(patientIdSearch))
     : patients;
+
+  const filteredByContext = localContextId && filteredByPatientId.length === filteredByPatientId.length
+    ? filteredByPatientId.filter(p => 
+        p.name.toLowerCase().includes(localContextId.toLowerCase()) || 
+        p.contactInfo.email.toLowerCase().includes(localContextId.toLowerCase())
+      )
+    : filteredByPatientId;
 
   // Apply additional filters
   const filteredBySearch = filteredByContext.filter(patient => 
     patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     patient.contactInfo.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    patient.contactInfo.phone.includes(searchQuery) ||
-    patient.id.includes(searchQuery)
+    patient.contactInfo.phone.includes(searchQuery)
   );
 
   // Apply campaign type filter
@@ -106,19 +110,32 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
         </p>
       </header>
       
-      {/* Search and Filter Section */}
+      {/* Search and Filter Section - All in one row */}
       <Card className="p-4 mb-6 border shadow-sm bg-white/50 backdrop-blur-sm">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Context ID search */}
-          <div className="md:col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+          {/* Patient ID search */}
+          <div className="md:col-span-3">
+            <ContextSearch 
+              contextId={patientIdSearch} 
+              setContextId={setPatientIdSearch}
+              label="Patient ID"
+              placeholder="Search by patient ID..."
+              icon={<IDCard className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />}
+            />
+          </div>
+          
+          {/* General search */}
+          <div className="md:col-span-5">
             <ContextSearch 
               contextId={localContextId} 
-              setContextId={setLocalContextId} 
+              setContextId={setLocalContextId}
+              label="Patient Information"
+              placeholder="Search by name, email..."
             />
           </div>
           
           {/* Filters */}
-          <div>
+          <div className="md:col-span-4">
             <PatientFilter 
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}

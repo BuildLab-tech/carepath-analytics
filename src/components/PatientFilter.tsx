@@ -1,7 +1,5 @@
 
 import React from "react";
-import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { MessageSquare, Calendar } from "lucide-react";
@@ -24,7 +22,7 @@ export function PatientFilter({
   setDateFilter
 }: PatientFilterProps) {
   return (
-    <div className="space-y-3">
+    <div className="space-y-1.5">
       <Label htmlFor="filter-section" className="text-sm font-medium">Filter Options</Label>
       <div className="grid grid-cols-2 gap-3">
         {/* Campaign type filter */}
