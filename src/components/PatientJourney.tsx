@@ -97,8 +97,8 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
       });
 
   return (
-    <div className="container px-4 py-6 mx-auto h-screen flex flex-col overflow-hidden">
-      <header className="mb-4 flex-shrink-0">
+    <div className="container px-4 py-6 mx-auto max-h-screen overflow-auto">
+      <header className="mb-4">
         <h1 className="text-2xl font-medium tracking-tight">Patient Journey Dashboard</h1>
         <p className="text-muted-foreground mt-1">
           View and track patient journeys across different campaign types
@@ -106,7 +106,7 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
       </header>
       
       {/* Context ID search */}
-      <div className="mb-4 flex-shrink-0">
+      <div className="mb-4">
         <ContextSearch 
           contextId={localContextId} 
           setContextId={setLocalContextId} 
@@ -114,15 +114,15 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
       </div>
       
       {/* Stats Cards Section */}
-      <div className="mb-4 flex-shrink-0">
+      <div className="mb-4">
         <PatientStats filteredPatients={filteredPatients} />
       </div>
       
       {/* Main content grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1 min-h-0 overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-h-[calc(100vh-280px)]">
         {/* Patient List Section with filters */}
-        <div className="flex flex-col h-full overflow-hidden">
-          <div className="mb-3 flex-shrink-0">
+        <div className="flex flex-col h-full max-h-full">
+          <div className="mb-3">
             <PatientFilter 
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
@@ -134,7 +134,7 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
           </div>
 
           {/* Patient list */}
-          <div className="flex-1 min-h-0 overflow-hidden">
+          <div className="flex-1 overflow-hidden">
             <PatientListContainer 
               patients={filteredPatients}
               selectedPatientId={selectedPatientId}
@@ -144,7 +144,7 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
         </div>
         
         {/* Patient Detail Column */}
-        <div className="md:col-span-2 flex flex-col h-full min-h-0 overflow-hidden">
+        <div className="md:col-span-2 flex flex-col max-h-full overflow-hidden">
           {selectedPatient && (!isMobile || (isMobile && mobileView === 'detail')) && (
             <PatientDetail
               patient={selectedPatient}

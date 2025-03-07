@@ -17,7 +17,7 @@ export function PatientListContainer({
 }: PatientListContainerProps) {
   return (
     <div className="h-full overflow-hidden">
-      <ScrollArea className="h-full">
+      <ScrollArea className="h-full w-full">
         <div className="space-y-3 pr-4 pb-4">
           {patients.map((patient) => (
             <PatientCard

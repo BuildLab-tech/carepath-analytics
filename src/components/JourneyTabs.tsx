@@ -12,7 +12,7 @@ interface JourneyTabsProps {
 
 export function JourneyTabs({ journeys }: JourneyTabsProps) {
   return (
-    <Tabs defaultValue="all" className="flex-1 flex flex-col overflow-hidden">
+    <Tabs defaultValue="all" className="flex-1 flex flex-col h-full overflow-hidden">
       <TabsList className="mb-4">
         <TabsTrigger value="all">All Journeys</TabsTrigger>
         <TabsTrigger value="active">Active</TabsTrigger>
@@ -20,7 +20,7 @@ export function JourneyTabs({ journeys }: JourneyTabsProps) {
       </TabsList>
       
       {/* All journeys tab */}
-      <TabsContent value="all" className="m-0 pt-1 pb-4 h-full">
+      <TabsContent value="all" className="m-0 pt-1 flex-1 h-full overflow-hidden">
         <ScrollArea className="h-full" orientation="horizontal">
           <div className="flex flex-nowrap gap-6 pr-4 min-w-max">
             {journeys.map((journey) => (
@@ -47,7 +47,7 @@ export function JourneyTabs({ journeys }: JourneyTabsProps) {
       </TabsContent>
       
       {/* Active journeys tab */}
-      <TabsContent value="active" className="m-0 pt-1 pb-4 h-full">
+      <TabsContent value="active" className="m-0 pt-1 flex-1 h-full overflow-hidden">
         <ScrollArea className="h-full" orientation="horizontal">
           <div className="flex flex-nowrap gap-6 pr-4 min-w-max">
             {journeys.filter(j => j.status === 'active').map((journey) => (
@@ -74,7 +74,7 @@ export function JourneyTabs({ journeys }: JourneyTabsProps) {
       </TabsContent>
       
       {/* Completed journeys tab */}
-      <TabsContent value="completed" className="m-0 pt-1 pb-4 h-full">
+      <TabsContent value="completed" className="m-0 pt-1 flex-1 h-full overflow-hidden">
         <ScrollArea className="h-full" orientation="horizontal">
           <div className="flex flex-nowrap gap-6 pr-4 min-w-max">
             {journeys.filter(j => j.status === 'completed').map((journey) => (
