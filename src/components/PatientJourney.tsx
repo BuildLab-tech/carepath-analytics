@@ -98,17 +98,17 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
       });
 
   return (
-    <div className="container px-4 py-6 mx-auto max-h-screen overflow-auto">
-      <header className="mb-4">
-        <h1 className="text-2xl font-medium tracking-tight">Patient Journey Dashboard</h1>
-        <p className="text-muted-foreground mt-1">
+    <div className="container px-2 sm:px-4 py-4 mx-auto h-full overflow-hidden flex flex-col">
+      <header className="mb-3">
+        <h1 className="text-xl sm:text-2xl font-medium tracking-tight">Patient Journey Dashboard</h1>
+        <p className="text-muted-foreground text-sm mt-0.5">
           View and track patient journeys across different campaign types
         </p>
       </header>
       
-      {/* Search and Filter Section */}
-      <Card className="p-4 mb-6 border shadow-sm bg-white/50 backdrop-blur-sm">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* Search and Filter Section - More compact */}
+      <Card className="p-3 mb-4 border shadow-sm bg-white/50 backdrop-blur-sm">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {/* Context ID search */}
           <div className="md:col-span-2">
             <ContextSearch 
@@ -131,19 +131,19 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
         </div>
       </Card>
       
-      {/* Stats Cards Section */}
-      <div className="mb-6">
+      {/* Stats Cards Section - More compact */}
+      <div className="mb-4">
         <PatientStats filteredPatients={filteredPatients} />
       </div>
       
-      {/* Main content grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-h-[calc(100vh-350px)]">
+      {/* Main content grid - Adjusted height to prevent overflow */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1 min-h-0 overflow-hidden">
         {/* Patient List Section */}
-        <div className="flex flex-col h-full max-h-full bg-white/50 rounded-lg border p-4 shadow-sm">
-          <h2 className="text-lg font-medium mb-4">Patient List</h2>
+        <div className="flex flex-col h-full bg-white/50 rounded-lg border p-3 shadow-sm overflow-hidden">
+          <h2 className="text-base font-medium mb-2">Patient List</h2>
           
-          {/* Patient list */}
-          <div className="flex-1 overflow-hidden">
+          {/* Patient list - Now with proper overflow handling */}
+          <div className="flex-1 overflow-hidden min-h-0">
             <PatientListContainer 
               patients={filteredPatients}
               selectedPatientId={selectedPatientId}
@@ -153,7 +153,7 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
         </div>
         
         {/* Patient Detail Column */}
-        <div className="md:col-span-2 flex flex-col max-h-full overflow-hidden bg-white/50 rounded-lg border p-4 shadow-sm">
+        <div className="md:col-span-2 flex flex-col h-full overflow-hidden bg-white/50 rounded-lg border p-3 shadow-sm">
           {selectedPatient && (!isMobile || (isMobile && mobileView === 'detail')) && (
             <PatientDetail
               patient={selectedPatient}
