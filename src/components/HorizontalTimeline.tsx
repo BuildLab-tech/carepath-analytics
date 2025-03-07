@@ -1,254 +1,214 @@
 
-import { useState } from "react";
-import { Journey, JourneyStep as JourneyStepType } from "@/lib/mockData";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useEffect, useState } from "react";
+import { JourneyStep } from "@/lib/mockData";
+import { CheckCircle, Clock, XCircle, ArrowRight, ChevronRight, Info } from "lucide-react";
+import { format } from "date-fns";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
-import { Check, Clock, Info, ChevronRight, X } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+
+type StepStatus = "completed" | "active" | "upcoming" | "skipped";
 
 interface HorizontalTimelineProps {
-  journey: Journey;
+  steps: JourneyStep[];
+  onStepClick?: (step: JourneyStep) => void;
 }
 
-export function HorizontalTimeline({ journey }: HorizontalTimelineProps) {
-  const [selectedStep, setSelectedStep] = useState<JourneyStepType | null>(null);
+export function HorizontalTimeline({ steps, onStepClick }: HorizontalTimelineProps) {
   const { toast } = useToast();
+  const [selectedStep, setSelectedStep] = useState<JourneyStep | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  // Format the date for display
-  const formatDate = (dateString: string) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    }).format(date);
-  };
-
-  const getJourneyTypeLabel = (type: string) => {
-    switch (type) {
-      case 'prepay':
-        return 'Pre-Payment';
-      case 'results':
-        return 'Results';
-      case 'guestpay':
-        return 'Guest Payment';
-      default:
-        return type;
+  useEffect(() => {
+    if (selectedStep) {
+      setIsDialogOpen(true);
     }
-  };
+  }, [selectedStep]);
 
-  const getJourneyStatusBadge = () => {
-    switch (journey.status) {
-      case 'active':
-        return <Badge variant="outline" className="ml-2 bg-blue-50 text-blue-700 border-blue-200">Active</Badge>;
-      case 'completed':
-        return <Badge variant="outline" className="ml-2 bg-green-50 text-green-700 border-green-200">Completed</Badge>;
-      case 'pending':
-        return <Badge variant="outline" className="ml-2 bg-yellow-50 text-yellow-700 border-yellow-200">Pending</Badge>;
-      default:
-        return null;
-    }
-  };
-
-  const getStepIcon = (step: JourneyStepType) => {
-    switch (step.status) {
-      case 'completed':
-        return <Check className="h-4 w-4" />;
-      case 'active':
-        return <Clock className="h-4 w-4 animate-pulse" />;
-      case 'skipped':
-        return <X className="h-4 w-4" />;
-      default:
-        return <span className="h-1.5 w-1.5 rounded-full bg-current inline-block" />;
-    }
-  };
-
-  const formatTime = (dateString: string) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', {
-      hour: 'numeric',
-      minute: 'numeric'
-    }).format(date);
-  };
-
-  const handleStepClick = (step: JourneyStepType) => {
+  const handleStepClick = (step: JourneyStep) => {
     setSelectedStep(step);
+    
+    if (onStepClick) {
+      onStepClick(step);
+    }
+
+    // Show toast notification
     toast({
-      title: `${step.name}`,
-      description: `${step.status} on ${step.timestamp ? formatDate(step.timestamp) : 'N/A'}`,
-      duration: 3000,
+      title: step.name,
+      description: getStatusText(step.status),
+      variant: getToastVariant(step.status),
     });
   };
 
+  const getStatusIcon = (status: StepStatus) => {
+    switch (status) {
+      case "completed":
+        return <CheckCircle className="h-6 w-6 text-green-500" />;
+      case "active":
+        return <Clock className="h-6 w-6 text-blue-500 animate-pulse" />;
+      case "skipped":
+        return <XCircle className="h-6 w-6 text-gray-400" />;
+      case "upcoming":
+        return <Clock className="h-6 w-6 text-gray-400" />;
+    }
+  };
+
+  const getToastVariant = (status: StepStatus): "default" | "destructive" => {
+    switch (status) {
+      case "completed":
+        return "default";
+      case "active":
+        return "default";
+      case "skipped":
+        return "destructive";
+      case "upcoming":
+        return "default";
+    }
+  };
+
+  const getStatusText = (status: StepStatus) => {
+    switch (status) {
+      case "completed":
+        return "Step completed";
+      case "active":
+        return "Step in progress";
+      case "skipped":
+        return "Step was skipped";
+      case "upcoming":
+        return "Step is upcoming";
+    }
+  };
+
+  const getStepColor = (status: StepStatus) => {
+    switch (status) {
+      case "completed":
+        return "bg-green-500";
+      case "active":
+        return "bg-blue-500";
+      case "skipped":
+        return "bg-gray-300";
+      case "upcoming":
+        return "bg-gray-200";
+    }
+  };
+
+  const getConnectorColor = (status: StepStatus) => {
+    switch (status) {
+      case "completed":
+        return "bg-green-500";
+      case "active":
+        return "bg-blue-500";
+      case "skipped":
+      case "upcoming":
+        return "bg-gray-200";
+    }
+  };
+
   return (
-    <Card className={cn(
-      "transition-all duration-300 hover:shadow-md animate-scale-in border-t-2",
-      journey.type === 'prepay' && "border-t-journey-prepay",
-      journey.type === 'results' && "border-t-journey-results",
-      journey.type === 'guestpay' && "border-t-journey-guestpay"
-    )}>
-      <CardHeader className="pb-2">
-        <div className="flex items-center">
-          <Badge 
-            variant="outline" 
-            className={cn(
-              "font-normal",
-              journey.type === 'prepay' && "bg-journey-prepay/10 text-journey-prepay border-journey-prepay/20",
-              journey.type === 'results' && "bg-journey-results/10 text-journey-results border-journey-results/20",
-              journey.type === 'guestpay' && "bg-journey-guestpay/10 text-journey-guestpay border-journey-guestpay/20"
-            )}
-          >
-            {getJourneyTypeLabel(journey.type)}
-          </Badge>
-          {getJourneyStatusBadge()}
+    <>
+      <div className="relative mt-8">
+        <div className="flex items-start overflow-x-auto pb-4 pt-2 pl-1 pr-2 timeline-scroll">
+          {steps.map((step, index) => (
+            <div key={step.id} className="flex flex-col items-center min-w-[120px] first:ml-2 last:mr-2">
+              {/* Step Ball */}
+              <button
+                className={cn(
+                  "w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200 border-2 relative z-10",
+                  step.status === "completed" ? "border-green-500 bg-green-50" :
+                  step.status === "active" ? "border-blue-500 bg-blue-50 animate-pulse" :
+                  step.status === "skipped" ? "border-gray-300 bg-gray-50" :
+                  "border-gray-200 bg-gray-50"
+                )}
+                onClick={() => handleStepClick(step)}
+              >
+                {getStatusIcon(step.status)}
+              </button>
+
+              {/* Connector Line */}
+              {index < steps.length - 1 && (
+                <div className="h-0.5 w-[120px] mt-5 absolute">
+                  <div
+                    className={`h-full ${getConnectorColor(step.status)}`}
+                  ></div>
+                </div>
+              )}
+
+              {/* Step Label */}
+              <div className="mt-2 text-center text-xs font-medium w-full px-1">
+                {step.name}
+              </div>
+
+              {/* Step Date */}
+              {step.timestamp && (
+                <div className="mt-1 text-xs text-gray-500">
+                  {format(new Date(step.timestamp), "MMM d, h:mm a")}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
-        <CardTitle className="text-lg font-medium mt-2">{journey.name}</CardTitle>
-        <div className="text-sm text-muted-foreground">
-          {formatDate(journey.startDate)}
-          {journey.endDate && ` - ${formatDate(journey.endDate)}`}
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="mt-4 relative">
-          {/* Timeline Line */}
-          <div className="absolute top-4 left-0 right-0 h-0.5 bg-gray-100 z-0"></div>
-          
-          {/* Timeline Steps */}
-          <div className="flex justify-between relative z-10">
-            {journey.steps.map((step, index) => (
-              <Dialog key={step.id}>
-                <DialogTrigger asChild>
-                  <div 
-                    className="flex flex-col items-center w-full max-w-[100px] cursor-pointer group"
-                    onClick={() => handleStepClick(step)}
-                  >
-                    <div className={cn(
-                      "h-8 w-8 rounded-full flex items-center justify-center mb-2 transition-all",
-                      "hover:ring-2 hover:ring-offset-2 hover:scale-110",
-                      step.status === 'completed' && `bg-${journey.type}-light text-${journey.type} border-${journey.type}`,
-                      step.status === 'active' && `bg-${journey.type}/20 text-${journey.type} ring-2 ring-${journey.type}/30`,
-                      step.status === 'upcoming' && "bg-muted/50 text-muted-foreground hover:bg-muted/70",
-                      step.status === 'skipped' && "bg-muted/30 text-muted-foreground hover:bg-muted/50",
-                      journey.type === 'prepay' && step.status === 'completed' && "bg-journey-prepay/10 text-journey-prepay hover:ring-journey-prepay/50",
-                      journey.type === 'results' && step.status === 'completed' && "bg-journey-results/10 text-journey-results hover:ring-journey-results/50",
-                      journey.type === 'guestpay' && step.status === 'completed' && "bg-journey-guestpay/10 text-journey-guestpay hover:ring-journey-guestpay/50",
-                      journey.type === 'prepay' && step.status === 'active' && "bg-journey-prepay/20 text-journey-prepay ring-journey-prepay/30 hover:ring-journey-prepay/50",
-                      journey.type === 'results' && step.status === 'active' && "bg-journey-results/20 text-journey-results ring-journey-results/30 hover:ring-journey-results/50",
-                      journey.type === 'guestpay' && step.status === 'active' && "bg-journey-guestpay/20 text-journey-guestpay ring-journey-guestpay/30 hover:ring-journey-guestpay/50",
-                    )}
-                    >
-                      {getStepIcon(step)}
-                    </div>
-                    
-                    {/* Connect line to next step */}
-                    {index < journey.steps.length - 1 && (
-                      <div className="absolute top-4 h-0.5 bg-gray-100 z-0" style={{
-                        left: `${(index * 100) / (journey.steps.length - 1)}%`, 
-                        width: `${100 / (journey.steps.length - 1)}%`
-                      }}></div>
-                    )}
-                    
-                    <div className="text-center group-hover:font-medium transition-all">
-                      <p className={cn(
-                        "text-xs font-medium truncate w-20",
-                        step.status === 'completed' && "text-foreground",
-                        step.status === 'active' && 
-                          (journey.type === 'prepay' ? "text-journey-prepay" : 
-                           journey.type === 'results' ? "text-journey-results" : 
-                           "text-journey-guestpay"),
-                        step.status === 'upcoming' && "text-muted-foreground",
-                        step.status === 'skipped' && "text-muted-foreground line-through"
-                      )}>
-                        {step.name}
-                      </p>
-                      {step.timestamp && (
-                        <span className="text-xs text-muted-foreground block mt-1">
-                          {formatTime(step.timestamp)}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-md">
-                  <DialogHeader>
-                    <DialogTitle className="flex items-center">
-                      <span className={cn(
-                        "h-6 w-6 rounded-full flex items-center justify-center mr-2",
-                        step.status === 'completed' && `bg-${journey.type}-light text-${journey.type}`,
-                        step.status === 'active' && `bg-${journey.type}/20 text-${journey.type}`,
-                        step.status === 'upcoming' && "bg-muted/50 text-muted-foreground",
-                        step.status === 'skipped' && "bg-muted/30 text-muted-foreground",
-                        journey.type === 'prepay' && step.status === 'completed' && "bg-journey-prepay/10 text-journey-prepay",
-                        journey.type === 'results' && step.status === 'completed' && "bg-journey-results/10 text-journey-results",
-                        journey.type === 'guestpay' && step.status === 'completed' && "bg-journey-guestpay/10 text-journey-guestpay",
-                        journey.type === 'prepay' && step.status === 'active' && "bg-journey-prepay/20 text-journey-prepay",
-                        journey.type === 'results' && step.status === 'active' && "bg-journey-results/20 text-journey-results",
-                        journey.type === 'guestpay' && step.status === 'active' && "bg-journey-guestpay/20 text-journey-guestpay",
-                      )}>
-                        {getStepIcon(step)}
-                      </span>
-                      {step.name}
-                    </DialogTitle>
-                    <DialogDescription>
-                      {step.status.charAt(0).toUpperCase() + step.status.slice(1)} 
-                      {step.timestamp && ` on ${formatDate(step.timestamp)} at ${formatTime(step.timestamp)}`}
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="space-y-4 py-4">
-                    {step.details && (
-                      <div className="space-y-2">
-                        <h4 className="font-medium text-sm">Details</h4>
-                        <p className="text-sm text-muted-foreground">{step.details}</p>
-                      </div>
-                    )}
-                    
-                    {step.metadata && (
-                      <div className="space-y-2">
-                        <h4 className="font-medium text-sm">Metadata</h4>
-                        <div className="bg-muted/50 p-3 rounded-md">
-                          <pre className="text-xs overflow-auto whitespace-pre-wrap">
-                            {JSON.stringify(step.metadata, null, 2)}
-                          </pre>
-                        </div>
-                      </div>
-                    )}
-                    
-                    <div className="space-y-2">
-                      <h4 className="font-medium text-sm">Status</h4>
-                      <Badge className={cn(
-                        step.status === 'completed' && "bg-green-100 text-green-800",
-                        step.status === 'active' && "bg-blue-100 text-blue-800",
-                        step.status === 'upcoming' && "bg-gray-100 text-gray-800",
-                        step.status === 'skipped' && "bg-yellow-100 text-yellow-800"
-                      )}>
-                        {step.status.charAt(0).toUpperCase() + step.status.slice(1)}
-                      </Badge>
-                    </div>
-                    
-                    {step.actions && step.actions.length > 0 && (
-                      <div className="space-y-2">
-                        <h4 className="font-medium text-sm">Actions</h4>
-                        <div className="flex gap-2">
-                          {step.actions.map((action, i) => (
-                            <Badge key={i} variant="outline" className="cursor-pointer hover:bg-secondary">
-                              {action}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </DialogContent>
-              </Dialog>
-            ))}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+      </div>
+
+      {/* Step Detail Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        {selectedStep && (
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                {getStatusIcon(selectedStep.status)}
+                {selectedStep.name}
+              </DialogTitle>
+              <DialogDescription>
+                {selectedStep.timestamp && (
+                  <span className="text-sm text-gray-500">
+                    {format(new Date(selectedStep.timestamp), "PPP p")}
+                  </span>
+                )}
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="grid gap-4 py-4">
+              <div>
+                <h4 className="text-sm font-medium mb-1 flex items-center gap-1">
+                  <Info className="h-3.5 w-3.5" />
+                  Status
+                </h4>
+                <Badge 
+                  variant={selectedStep.status === "completed" ? "default" : 
+                         selectedStep.status === "active" ? "secondary" :
+                         selectedStep.status === "skipped" ? "destructive" : "outline"}
+                >
+                  {getStatusText(selectedStep.status)}
+                </Badge>
+              </div>
+
+              {selectedStep.details && (
+                <div>
+                  <h4 className="text-sm font-medium mb-1">Details</h4>
+                  <p className="text-sm text-gray-600">{selectedStep.details}</p>
+                </div>
+              )}
+
+              {/* We removed references to metadata and actions which caused errors */}
+            </div>
+
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+                Close
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        )}
+      </Dialog>
+    </>
   );
 }
