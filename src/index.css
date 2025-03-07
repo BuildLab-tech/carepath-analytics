@@ -5,44 +5,26 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
+    --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
-
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 210 100% 50%;
+    --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
-
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
-
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
-
-    --radius: 0.75rem;
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --radius: 0.5rem;
   }
 
   .dark {
@@ -65,14 +47,6 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -80,66 +54,101 @@
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-background text-foreground font-sans antialiased;
-  }
-
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-muted-foreground/30 rounded-full;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground/50;
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
-@layer components {
-  .glass-panel {
-    @apply bg-white/60 backdrop-blur-md border border-white/20 shadow-sm;
+.journey-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.journey-step:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  bottom: -8px;
+  left: 10px;
+  width: 1px;
+  background-color: hsl(var(--muted));
+  z-index: 0;
+}
+
+.journey-step-dot {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Horizontal Timeline Specific Styles */
+.horizontal-timeline {
+  display: flex;
+  position: relative;
+  margin: 30px 0;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: hsl(var(--muted));
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.timeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.timeline-step-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+}
+
+.timeline-step-dot.active {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 4px rgba(var(--color-ring), 0.3);
+}
+
+.timeline-connector {
+  position: absolute;
+  top: 16px;
+  height: 2px;
+  background-color: hsl(var(--muted));
+  z-index: -1;
+}
+
+@media (max-width: 640px) {
+  .timeline-step .step-label {
+    display: none;
   }
   
-  .journey-step {
-    @apply relative flex items-center gap-2 py-3;
-  }
-  
-  .journey-step::before {
-    content: '';
-    @apply absolute left-[15px] w-0.5 h-full -top-1/2 bg-muted pointer-events-none;
-  }
-  
-  .journey-step:first-child::before {
-    @apply hidden;
-  }
-  
-  .journey-step:last-child::before {
-    @apply h-1/2;
-  }
-  
-  .journey-step-dot {
-    @apply relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center;
-  }
-  
-  .journey-step-dot::after {
-    content: '';
-    @apply absolute inset-0 rounded-full animate-pulse-subtle;
-  }
-  
-  .patient-card {
-    @apply bg-white rounded-xl shadow-sm border border-border/50 overflow-hidden transition-all duration-300 hover:shadow-md;
-  }
-  
-  .patient-card:hover .patient-card-image img {
-    @apply scale-105;
+  .timeline-step:nth-child(odd) .step-label {
+    display: block;
   }
 }

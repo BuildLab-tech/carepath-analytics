@@ -1,8 +1,7 @@
-
 import { useState, useEffect } from "react";
 import { patients, Patient, getPatientById } from "@/lib/mockData";
 import { PatientList } from "@/components/PatientList";
-import { JourneyTimeline } from "@/components/JourneyTimeline";
+import { HorizontalTimeline } from "@/components/HorizontalTimeline";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User, Mail, Phone, ChevronLeft } from "lucide-react";
@@ -140,13 +139,13 @@ export function PatientJourney() {
                 <ScrollArea className="flex-1">
                   <TabsContent value="all" className="m-0 space-y-6 pt-1 pb-4">
                     {selectedPatient.journeys.map((journey) => (
-                      <JourneyTimeline key={journey.id} journey={journey} />
+                      <HorizontalTimeline key={journey.id} journey={journey} />
                     ))}
                   </TabsContent>
                   
                   <TabsContent value="active" className="m-0 space-y-6 pt-1 pb-4">
                     {selectedPatient.journeys.filter(j => j.status === 'active').map((journey) => (
-                      <JourneyTimeline key={journey.id} journey={journey} />
+                      <HorizontalTimeline key={journey.id} journey={journey} />
                     ))}
                     
                     {selectedPatient.journeys.filter(j => j.status === 'active').length === 0 && (
@@ -158,7 +157,7 @@ export function PatientJourney() {
                   
                   <TabsContent value="completed" className="m-0 space-y-6 pt-1 pb-4">
                     {selectedPatient.journeys.filter(j => j.status === 'completed').map((journey) => (
-                      <JourneyTimeline key={journey.id} journey={journey} />
+                      <HorizontalTimeline key={journey.id} journey={journey} />
                     ))}
                     
                     {selectedPatient.journeys.filter(j => j.status === 'completed').length === 0 && (
