@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { patients, Patient, getPatientById, Journey } from "@/lib/mockData";
 import { PatientCard } from "@/components/PatientCard";
@@ -165,6 +166,20 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
           </p>
         </header>
         
+        {/* Context ID search - Moved to top */}
+        <div className="relative mb-6">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search by Context ID..."
+            value={localContextId}
+            onChange={(e) => setLocalContextId(e.target.value)}
+            className="pl-9"
+          />
+          <p className="text-xs text-muted-foreground mt-1">
+            Search for patients by context ID, name, or email
+          </p>
+        </div>
+        
         {/* Stats Cards Section */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <StatsCard 
@@ -220,20 +235,6 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
           {/* Patient List Section with filters */}
           <div className="flex flex-col space-y-6 h-full overflow-hidden">
             <div className="space-y-4">
-              {/* Context ID search */}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search by Context ID..."
-                  value={localContextId}
-                  onChange={(e) => setLocalContextId(e.target.value)}
-                  className="pl-9"
-                />
-                <p className="text-xs text-muted-foreground mt-1">
-                  Search for patients by context ID, name, or email
-                </p>
-              </div>
-
               {/* Patient search */}
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -246,7 +247,7 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {/* Campaign type filter - renamed from Message Type */}
+                {/* Campaign type filter */}
                 <div className="space-y-1.5">
                   <Label htmlFor="campaign-type" className="text-xs">Campaign Type</Label>
                   <Select value={campaignType} onValueChange={setCampaignType}>
@@ -361,67 +362,78 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
                     <TabsTrigger value="completed">Completed</TabsTrigger>
                   </TabsList>
                   
-                  <ScrollArea className="flex-1">
-                    <TabsContent value="all" className="m-0 space-y-6 pt-1 pb-4">
-                      {selectedPatient.journeys.map((journey) => (
-                        <div key={journey.id} className="mb-6">
-                          <div className="flex items-center mb-2">
-                            <Badge className="mr-2 capitalize">
-                              {journey.type}
-                            </Badge>
-                            <span className="text-sm text-muted-foreground">
-                              Campaign Type: <span className="font-medium">{journey.type}</span>
-                            </span>
+                  {/* Make journey content horizontally scrollable */}
+                  <TabsContent value="all" className="m-0 pt-1 pb-4 h-full">
+                    <ScrollArea className="h-full" orientation="horizontal">
+                      <div className="flex flex-nowrap gap-6 pr-4 min-w-max">
+                        {selectedPatient.journeys.map((journey) => (
+                          <div key={journey.id} className="mb-6 w-[600px] min-w-[600px] max-w-[600px]">
+                            <div className="flex items-center mb-2">
+                              <Badge className="mr-2 capitalize">
+                                {journey.type}
+                              </Badge>
+                              <span className="text-sm text-muted-foreground">
+                                Campaign Type: <span className="font-medium">{journey.type}</span>
+                              </span>
+                            </div>
+                            <HorizontalTimeline steps={journey.steps} />
                           </div>
-                          <HorizontalTimeline steps={journey.steps} />
-                        </div>
-                      ))}
-                    </TabsContent>
-                    
-                    <TabsContent value="active" className="m-0 space-y-6 pt-1 pb-4">
-                      {selectedPatient.journeys.filter(j => j.status === 'active').map((journey) => (
-                        <div key={journey.id} className="mb-6">
-                          <div className="flex items-center mb-2">
-                            <Badge className="mr-2 capitalize">
-                              {journey.type}
-                            </Badge>
-                            <span className="text-sm text-muted-foreground">
-                              Campaign Type: <span className="font-medium">{journey.type}</span>
-                            </span>
+                        ))}
+                      </div>
+                    </ScrollArea>
+                  </TabsContent>
+                  
+                  <TabsContent value="active" className="m-0 pt-1 pb-4 h-full">
+                    <ScrollArea className="h-full" orientation="horizontal">
+                      <div className="flex flex-nowrap gap-6 pr-4 min-w-max">
+                        {selectedPatient.journeys.filter(j => j.status === 'active').map((journey) => (
+                          <div key={journey.id} className="mb-6 w-[600px] min-w-[600px] max-w-[600px]">
+                            <div className="flex items-center mb-2">
+                              <Badge className="mr-2 capitalize">
+                                {journey.type}
+                              </Badge>
+                              <span className="text-sm text-muted-foreground">
+                                Campaign Type: <span className="font-medium">{journey.type}</span>
+                              </span>
+                            </div>
+                            <HorizontalTimeline steps={journey.steps} />
                           </div>
-                          <HorizontalTimeline steps={journey.steps} />
-                        </div>
-                      ))}
-                      
-                      {selectedPatient.journeys.filter(j => j.status === 'active').length === 0 && (
-                        <div className="text-center py-8 text-muted-foreground">
-                          No active journeys
-                        </div>
-                      )}
-                    </TabsContent>
-                    
-                    <TabsContent value="completed" className="m-0 space-y-6 pt-1 pb-4">
-                      {selectedPatient.journeys.filter(j => j.status === 'completed').map((journey) => (
-                        <div key={journey.id} className="mb-6">
-                          <div className="flex items-center mb-2">
-                            <Badge className="mr-2 capitalize">
-                              {journey.type}
-                            </Badge>
-                            <span className="text-sm text-muted-foreground">
-                              Campaign Type: <span className="font-medium">{journey.type}</span>
-                            </span>
+                        ))}
+                        
+                        {selectedPatient.journeys.filter(j => j.status === 'active').length === 0 && (
+                          <div className="text-center py-8 text-muted-foreground">
+                            No active journeys
                           </div>
-                          <HorizontalTimeline steps={journey.steps} />
-                        </div>
-                      ))}
-                      
-                      {selectedPatient.journeys.filter(j => j.status === 'completed').length === 0 && (
-                        <div className="text-center py-8 text-muted-foreground">
-                          No completed journeys
-                        </div>
-                      )}
-                    </TabsContent>
-                  </ScrollArea>
+                        )}
+                      </div>
+                    </ScrollArea>
+                  </TabsContent>
+                  
+                  <TabsContent value="completed" className="m-0 pt-1 pb-4 h-full">
+                    <ScrollArea className="h-full" orientation="horizontal">
+                      <div className="flex flex-nowrap gap-6 pr-4 min-w-max">
+                        {selectedPatient.journeys.filter(j => j.status === 'completed').map((journey) => (
+                          <div key={journey.id} className="mb-6 w-[600px] min-w-[600px] max-w-[600px]">
+                            <div className="flex items-center mb-2">
+                              <Badge className="mr-2 capitalize">
+                                {journey.type}
+                              </Badge>
+                              <span className="text-sm text-muted-foreground">
+                                Campaign Type: <span className="font-medium">{journey.type}</span>
+                              </span>
+                            </div>
+                            <HorizontalTimeline steps={journey.steps} />
+                          </div>
+                        ))}
+                        
+                        {selectedPatient.journeys.filter(j => j.status === 'completed').length === 0 && (
+                          <div className="text-center py-8 text-muted-foreground">
+                            No completed journeys
+                          </div>
+                        )}
+                      </div>
+                    </ScrollArea>
+                  </TabsContent>
                 </Tabs>
               </div>
             )}
