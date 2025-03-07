@@ -24,24 +24,13 @@ export function PatientFilter({
   setDateFilter
 }: PatientFilterProps) {
   return (
-    <div className="space-y-4">
-      {/* Patient search */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input
-          placeholder="Search patients..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-9"
-        />
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <div className="space-y-3">
+      <Label htmlFor="filter-section" className="text-sm font-medium">Filter Options</Label>
+      <div className="grid grid-cols-2 gap-3">
         {/* Campaign type filter */}
-        <div className="space-y-1.5">
-          <Label htmlFor="campaign-type" className="text-xs">Campaign Type</Label>
+        <div>
           <Select value={campaignType} onValueChange={setCampaignType}>
-            <SelectTrigger id="campaign-type" className="text-xs h-8">
+            <SelectTrigger id="campaign-type" className="text-xs h-9 bg-white/80 border-gray-200">
               <MessageSquare className="h-3 w-3 mr-1.5" />
               <SelectValue placeholder="All Types" />
             </SelectTrigger>
@@ -55,10 +44,9 @@ export function PatientFilter({
         </div>
         
         {/* Date filter */}
-        <div className="space-y-1.5">
-          <Label htmlFor="date-filter" className="text-xs">Date Range</Label>
+        <div>
           <Select value={dateFilter} onValueChange={setDateFilter}>
-            <SelectTrigger id="date-filter" className="text-xs h-8">
+            <SelectTrigger id="date-filter" className="text-xs h-9 bg-white/80 border-gray-200">
               <Calendar className="h-3 w-3 mr-1.5" />
               <SelectValue placeholder="All Time" />
             </SelectTrigger>

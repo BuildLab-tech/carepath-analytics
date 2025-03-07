@@ -7,6 +7,7 @@ import { PatientStats } from "@/components/PatientStats";
 import { PatientListContainer } from "@/components/PatientListContainer";
 import { PatientDetail } from "@/components/PatientDetail";
 import { ContextSearch } from "@/components/ContextSearch";
+import { Card } from "@/components/ui/card";
 
 interface PatientJourneyProps {
   patientId: string | null;
@@ -105,24 +106,19 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
         </p>
       </header>
       
-      {/* Context ID search */}
-      <div className="mb-4">
-        <ContextSearch 
-          contextId={localContextId} 
-          setContextId={setLocalContextId} 
-        />
-      </div>
-      
-      {/* Stats Cards Section */}
-      <div className="mb-4">
-        <PatientStats filteredPatients={filteredPatients} />
-      </div>
-      
-      {/* Main content grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-h-[calc(100vh-280px)]">
-        {/* Patient List Section with filters */}
-        <div className="flex flex-col h-full max-h-full">
-          <div className="mb-3">
+      {/* Search and Filter Section */}
+      <Card className="p-4 mb-6 border shadow-sm bg-white/50 backdrop-blur-sm">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Context ID search */}
+          <div className="md:col-span-2">
+            <ContextSearch 
+              contextId={localContextId} 
+              setContextId={setLocalContextId} 
+            />
+          </div>
+          
+          {/* Filters */}
+          <div>
             <PatientFilter 
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
@@ -132,7 +128,20 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
               setDateFilter={setLocalDateFilter}
             />
           </div>
-
+        </div>
+      </Card>
+      
+      {/* Stats Cards Section */}
+      <div className="mb-6">
+        <PatientStats filteredPatients={filteredPatients} />
+      </div>
+      
+      {/* Main content grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-h-[calc(100vh-350px)]">
+        {/* Patient List Section */}
+        <div className="flex flex-col h-full max-h-full bg-white/50 rounded-lg border p-4 shadow-sm">
+          <h2 className="text-lg font-medium mb-4">Patient List</h2>
+          
           {/* Patient list */}
           <div className="flex-1 overflow-hidden">
             <PatientListContainer 
@@ -144,7 +153,7 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
         </div>
         
         {/* Patient Detail Column */}
-        <div className="md:col-span-2 flex flex-col max-h-full overflow-hidden">
+        <div className="md:col-span-2 flex flex-col max-h-full overflow-hidden bg-white/50 rounded-lg border p-4 shadow-sm">
           {selectedPatient && (!isMobile || (isMobile && mobileView === 'detail')) && (
             <PatientDetail
               patient={selectedPatient}
