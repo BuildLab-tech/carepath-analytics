@@ -28,7 +28,7 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
   const [mobileView, setMobileView] = useState<'list' | 'detail'>('list');
   const [localDateFilter, setLocalDateFilter] = useState(dateFilter);
   const [searchQuery, setSearchQuery] = useState("");
-  const [messageType, setMessageType] = useState("all");
+  const [campaignType, setCampaignType] = useState("all");
   const [localContextId, setLocalContextId] = useState(contextId);
   const isMobile = useIsMobile();
 
@@ -96,12 +96,12 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
     patient.id.includes(searchQuery)
   );
 
-  // Apply message type filter
-  const filteredPatients = messageType === "all" 
+  // Apply campaign type filter
+  const filteredPatients = campaignType === "all" 
     ? filteredBySearch 
     : filteredBySearch.filter(patient => {
         // Simple mock filtering for the demo
-        switch(messageType) {
+        switch(campaignType) {
           case "prepay": 
             return patient.journeys.some(j => j.type === "prepay");
           case "results": 
@@ -153,11 +153,11 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {/* Message type filter */}
+                {/* Campaign type filter - renamed from Message Type */}
                 <div className="space-y-1.5">
-                  <Label htmlFor="message-type" className="text-xs">Message Type</Label>
-                  <Select value={messageType} onValueChange={setMessageType}>
-                    <SelectTrigger id="message-type" className="text-xs h-8">
+                  <Label htmlFor="campaign-type" className="text-xs">Campaign Type</Label>
+                  <Select value={campaignType} onValueChange={setCampaignType}>
+                    <SelectTrigger id="campaign-type" className="text-xs h-8">
                       <MessageSquare className="h-3 w-3 mr-1.5" />
                       <SelectValue placeholder="All Types" />
                     </SelectTrigger>
@@ -271,13 +271,33 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
                   <ScrollArea className="flex-1">
                     <TabsContent value="all" className="m-0 space-y-6 pt-1 pb-4">
                       {selectedPatient.journeys.map((journey) => (
-                        <HorizontalTimeline key={journey.id} steps={journey.steps} />
+                        <div key={journey.id} className="mb-6">
+                          <div className="flex items-center mb-2">
+                            <Badge className="mr-2 capitalize">
+                              {journey.type}
+                            </Badge>
+                            <span className="text-sm text-muted-foreground">
+                              Campaign Type: <span className="font-medium">{journey.type}</span>
+                            </span>
+                          </div>
+                          <HorizontalTimeline steps={journey.steps} />
+                        </div>
                       ))}
                     </TabsContent>
                     
                     <TabsContent value="active" className="m-0 space-y-6 pt-1 pb-4">
                       {selectedPatient.journeys.filter(j => j.status === 'active').map((journey) => (
-                        <HorizontalTimeline key={journey.id} steps={journey.steps} />
+                        <div key={journey.id} className="mb-6">
+                          <div className="flex items-center mb-2">
+                            <Badge className="mr-2 capitalize">
+                              {journey.type}
+                            </Badge>
+                            <span className="text-sm text-muted-foreground">
+                              Campaign Type: <span className="font-medium">{journey.type}</span>
+                            </span>
+                          </div>
+                          <HorizontalTimeline steps={journey.steps} />
+                        </div>
                       ))}
                       
                       {selectedPatient.journeys.filter(j => j.status === 'active').length === 0 && (
@@ -289,7 +309,17 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
                     
                     <TabsContent value="completed" className="m-0 space-y-6 pt-1 pb-4">
                       {selectedPatient.journeys.filter(j => j.status === 'completed').map((journey) => (
-                        <HorizontalTimeline key={journey.id} steps={journey.steps} />
+                        <div key={journey.id} className="mb-6">
+                          <div className="flex items-center mb-2">
+                            <Badge className="mr-2 capitalize">
+                              {journey.type}
+                            </Badge>
+                            <span className="text-sm text-muted-foreground">
+                              Campaign Type: <span className="font-medium">{journey.type}</span>
+                            </span>
+                          </div>
+                          <HorizontalTimeline steps={journey.steps} />
+                        </div>
                       ))}
                       
                       {selectedPatient.journeys.filter(j => j.status === 'completed').length === 0 && (
