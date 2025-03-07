@@ -6,7 +6,6 @@ import { ChevronLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { PatientDetailHeader } from "@/components/PatientDetailHeader";
 import { JourneyTabs } from "@/components/JourneyTabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface PatientDetailProps {
   patient: Patient;
@@ -16,7 +15,7 @@ interface PatientDetailProps {
 
 export function PatientDetail({ patient, isMobile, handleBackToList }: PatientDetailProps) {
   return (
-    <div className="flex flex-col h-full max-h-full overflow-hidden animate-fade-in">
+    <div className="flex flex-col h-full overflow-hidden animate-fade-in">
       {/* Mobile Back Button */}
       {isMobile && (
         <Button 
@@ -33,7 +32,7 @@ export function PatientDetail({ patient, isMobile, handleBackToList }: PatientDe
       <PatientDetailHeader patient={patient} />
       
       {/* Journey Tabs */}
-      <div className="flex flex-col overflow-hidden flex-1">
+      <div className="flex flex-col overflow-hidden flex-1 mt-4">
         <h2 className="text-lg font-medium mb-4 flex items-center">
           Patient Journeys
           <Badge className="ml-2 bg-primary/10 text-primary border-primary/20">
