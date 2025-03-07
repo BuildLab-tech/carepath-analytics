@@ -15,7 +15,7 @@ interface PatientDetailProps {
 
 export function PatientDetail({ patient, isMobile, handleBackToList }: PatientDetailProps) {
   return (
-    <div className="flex flex-col h-full overflow-hidden animate-fade-in">
+    <div className="flex flex-col h-full max-h-full overflow-hidden animate-fade-in">
       {/* Mobile Back Button */}
       {isMobile && (
         <Button 
