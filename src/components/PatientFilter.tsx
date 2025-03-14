@@ -34,9 +34,11 @@ export function PatientFilter({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Types</SelectItem>
+              <SelectItem value="appointment">Appointment</SelectItem>
               <SelectItem value="prepay">Prepay</SelectItem>
-              <SelectItem value="results">Results</SelectItem>
-              <SelectItem value="guestpay">Guest Pay</SelectItem>
+              <SelectItem value="resultcall">ResultCall</SelectItem>
+              <SelectItem value="guestpay">Guestpay</SelectItem>
+              <SelectItem value="awo">AWO</SelectItem>
             </SelectContent>
           </Select>
         </div>
