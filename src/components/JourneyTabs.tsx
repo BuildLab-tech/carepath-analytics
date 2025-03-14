@@ -11,6 +11,28 @@ interface JourneyTabsProps {
 }
 
 export function JourneyTabs({ journeys }: JourneyTabsProps) {
+  // Helper function to sort journeys by type
+  const sortJourneys = (journeysToSort: Journey[]) => {
+    return [...journeysToSort].sort((a, b) => {
+      // Appointment type should come first
+      if (a.type === 'appointment' && b.type !== 'appointment') return -1;
+      if (a.type !== 'appointment' && b.type === 'appointment') return 1;
+      
+      // For other types, maintain the original order
+      return 0;
+    });
+  };
+  
+  // Helper function to get journey type label
+  const getJourneyTypeLabel = (type: string) => {
+    switch (type) {
+      case 'results':
+        return 'Results Call';
+      default:
+        return type.charAt(0).toUpperCase() + type.slice(1);
+    }
+  };
+  
   return (
     <Tabs defaultValue="all" className="flex-1 flex flex-col h-full overflow-hidden">
       <TabsList className="mb-4">
@@ -23,14 +45,14 @@ export function JourneyTabs({ journeys }: JourneyTabsProps) {
       <TabsContent value="all" className="m-0 pt-1 flex-1 h-full overflow-hidden">
         <ScrollArea className="h-full" orientation="vertical">
           <div className="space-y-6 pr-4 pb-4">
-            {journeys.map((journey) => (
+            {sortJourneys(journeys).map((journey) => (
               <div key={journey.id} className="mb-6 w-full">
                 <div className="flex items-center mb-2">
                   <Badge className="mr-2 capitalize">
                     {journey.type}
                   </Badge>
                   <span className="text-sm text-muted-foreground">
-                    Campaign Type: <span className="font-medium">{journey.type}</span>
+                    Campaign Type: <span className="font-medium">{getJourneyTypeLabel(journey.type)}</span>
                   </span>
                 </div>
                 <HorizontalTimeline steps={journey.steps} />
@@ -50,14 +72,14 @@ export function JourneyTabs({ journeys }: JourneyTabsProps) {
       <TabsContent value="active" className="m-0 pt-1 flex-1 h-full overflow-hidden">
         <ScrollArea className="h-full" orientation="vertical">
           <div className="space-y-6 pr-4 pb-4">
-            {journeys.filter(j => j.status === 'active').map((journey) => (
+            {sortJourneys(journeys.filter(j => j.status === 'active')).map((journey) => (
               <div key={journey.id} className="mb-6 w-full">
                 <div className="flex items-center mb-2">
                   <Badge className="mr-2 capitalize">
                     {journey.type}
                   </Badge>
                   <span className="text-sm text-muted-foreground">
-                    Campaign Type: <span className="font-medium">{journey.type}</span>
+                    Campaign Type: <span className="font-medium">{getJourneyTypeLabel(journey.type)}</span>
                   </span>
                 </div>
                 <HorizontalTimeline steps={journey.steps} />
@@ -77,14 +99,14 @@ export function JourneyTabs({ journeys }: JourneyTabsProps) {
       <TabsContent value="completed" className="m-0 pt-1 flex-1 h-full overflow-hidden">
         <ScrollArea className="h-full" orientation="vertical">
           <div className="space-y-6 pr-4 pb-4">
-            {journeys.filter(j => j.status === 'completed').map((journey) => (
+            {sortJourneys(journeys.filter(j => j.status === 'completed')).map((journey) => (
               <div key={journey.id} className="mb-6 w-full">
                 <div className="flex items-center mb-2">
                   <Badge className="mr-2 capitalize">
                     {journey.type}
                   </Badge>
                   <span className="text-sm text-muted-foreground">
-                    Campaign Type: <span className="font-medium">{journey.type}</span>
+                    Campaign Type: <span className="font-medium">{getJourneyTypeLabel(journey.type)}</span>
                   </span>
                 </div>
                 <HorizontalTimeline steps={journey.steps} />

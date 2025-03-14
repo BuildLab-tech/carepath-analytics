@@ -26,7 +26,7 @@ export function JourneyTimeline({ journey }: JourneyTimelineProps) {
       case 'prepay':
         return 'Pre-Payment';
       case 'results':
-        return 'Results';
+        return 'Results Call';
       case 'guestpay':
         return 'Guest Payment';
       case 'appointment':
