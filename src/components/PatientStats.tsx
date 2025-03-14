@@ -89,17 +89,20 @@ export function PatientStats({ filteredPatients }: PatientStatsProps) {
         <StatsCard 
           title="Prepay Journeys" 
           value={stats.prepayJourneys}
-          className="border-purple-200 bg-purple-50/50"
+          journeyType="prepay"
+          description="Pre-payment campaign journeys"
         />
         <StatsCard 
           title="Results Journeys" 
           value={stats.resultsJourneys}
-          className="border-amber-200 bg-amber-50/50"
+          journeyType="results"
+          description="Results notification journeys"
         />
         <StatsCard 
           title="Guestpay Journeys" 
           value={stats.guestpayJourneys}
-          className="border-cyan-200 bg-cyan-50/50"
+          journeyType="guestpay"
+          description="Guest payment journeys"
         />
       </div>
     </>
