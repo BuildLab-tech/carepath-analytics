@@ -2,7 +2,7 @@
 import React from "react";
 import { Patient } from "@/lib/mockData";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Hash } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { PatientDetailHeader } from "@/components/PatientDetailHeader";
 import { JourneyTabs } from "@/components/JourneyTabs";
@@ -27,6 +27,17 @@ export function PatientDetail({ patient, isMobile, handleBackToList }: PatientDe
           <ChevronLeft className="h-4 w-4 mr-1" /> Back to patients
         </Button>
       )}
+      
+      {/* Patient ID */}
+      <div className="flex items-center mb-3">
+        <Hash className="h-4 w-4 mr-1.5 text-muted-foreground" />
+        <span className="text-sm font-medium">{patient.id}</span>
+        {patient.contextId && (
+          <Badge variant="outline" className="ml-2 text-xs">
+            Context: {patient.contextId}
+          </Badge>
+        )}
+      </div>
       
       {/* Patient Header */}
       <PatientDetailHeader patient={patient} />

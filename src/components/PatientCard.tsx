@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { Mail, Phone, User } from "lucide-react";
+import { Mail, Phone, User, Hash, FileText } from "lucide-react";
 
 interface PatientCardProps {
   patient: Patient;
@@ -51,6 +51,16 @@ export function PatientCard({ patient, selected, onClick }: PatientCardProps) {
       </CardHeader>
       <CardContent>
         <div className="text-xs text-muted-foreground space-y-1">
+          <div className="flex items-center">
+            <Hash className="h-3 w-3 mr-1.5" /> 
+            <span className="font-medium text-xs text-primary">{patient.id}</span>
+          </div>
+          {patient.contextId && (
+            <div className="flex items-center">
+              <FileText className="h-3 w-3 mr-1.5" /> 
+              <span className="text-muted-foreground">Context: {patient.contextId}</span>
+            </div>
+          )}
           <div className="flex items-center">
             <Mail className="h-3 w-3 mr-1.5" /> 
             <span className="truncate">{patient.contactInfo.email}</span>
