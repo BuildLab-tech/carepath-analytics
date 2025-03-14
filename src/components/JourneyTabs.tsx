@@ -34,7 +34,7 @@ export function JourneyTabs({ journeys }: JourneyTabsProps) {
   };
   
   return (
-    <Tabs defaultValue="all" className="flex-1 flex flex-col h-full overflow-hidden">
+    <Tabs defaultValue="all" className="w-full h-full">
       <TabsList className="mb-4">
         <TabsTrigger value="all">All Journeys</TabsTrigger>
         <TabsTrigger value="active">Active</TabsTrigger>
@@ -42,84 +42,84 @@ export function JourneyTabs({ journeys }: JourneyTabsProps) {
       </TabsList>
       
       {/* All journeys tab */}
-      <TabsContent value="all" className="m-0 pt-1 flex-1 h-full overflow-hidden">
-        <ScrollArea className="h-full" orientation="vertical">
-          <div className="space-y-6 pr-4 pb-4">
-            {sortJourneys(journeys).map((journey) => (
-              <div key={journey.id} className="mb-6 w-full">
-                <div className="flex items-center mb-2">
-                  <Badge className="mr-2 capitalize">
-                    {journey.type}
-                  </Badge>
-                  <span className="text-sm text-muted-foreground">
-                    Campaign Type: <span className="font-medium">{getJourneyTypeLabel(journey.type)}</span>
-                  </span>
-                </div>
+      <TabsContent value="all" className="tabs-content">
+        <div className="space-y-6 pr-4 pb-4">
+          {sortJourneys(journeys).map((journey) => (
+            <div key={journey.id} className="mb-6 w-full">
+              <div className="flex items-center mb-2">
+                <Badge className="mr-2 capitalize">
+                  {journey.type}
+                </Badge>
+                <span className="text-sm text-muted-foreground">
+                  Campaign Type: <span className="font-medium">{getJourneyTypeLabel(journey.type)}</span>
+                </span>
+              </div>
+              <div className="overflow-x-auto">
                 <HorizontalTimeline steps={journey.steps} />
               </div>
-            ))}
-            
-            {journeys.length === 0 && (
-              <div className="text-center py-8 text-muted-foreground">
-                No journeys found
-              </div>
-            )}
-          </div>
-        </ScrollArea>
+            </div>
+          ))}
+          
+          {journeys.length === 0 && (
+            <div className="text-center py-8 text-muted-foreground">
+              No journeys found
+            </div>
+          )}
+        </div>
       </TabsContent>
       
       {/* Active journeys tab */}
-      <TabsContent value="active" className="m-0 pt-1 flex-1 h-full overflow-hidden">
-        <ScrollArea className="h-full" orientation="vertical">
-          <div className="space-y-6 pr-4 pb-4">
-            {sortJourneys(journeys.filter(j => j.status === 'active')).map((journey) => (
-              <div key={journey.id} className="mb-6 w-full">
-                <div className="flex items-center mb-2">
-                  <Badge className="mr-2 capitalize">
-                    {journey.type}
-                  </Badge>
-                  <span className="text-sm text-muted-foreground">
-                    Campaign Type: <span className="font-medium">{getJourneyTypeLabel(journey.type)}</span>
-                  </span>
-                </div>
+      <TabsContent value="active" className="tabs-content">
+        <div className="space-y-6 pr-4 pb-4">
+          {sortJourneys(journeys.filter(j => j.status === 'active')).map((journey) => (
+            <div key={journey.id} className="mb-6 w-full">
+              <div className="flex items-center mb-2">
+                <Badge className="mr-2 capitalize">
+                  {journey.type}
+                </Badge>
+                <span className="text-sm text-muted-foreground">
+                  Campaign Type: <span className="font-medium">{getJourneyTypeLabel(journey.type)}</span>
+                </span>
+              </div>
+              <div className="overflow-x-auto">
                 <HorizontalTimeline steps={journey.steps} />
               </div>
-            ))}
-            
-            {journeys.filter(j => j.status === 'active').length === 0 && (
-              <div className="text-center py-8 text-muted-foreground">
-                No active journeys
-              </div>
-            )}
-          </div>
-        </ScrollArea>
+            </div>
+          ))}
+          
+          {journeys.filter(j => j.status === 'active').length === 0 && (
+            <div className="text-center py-8 text-muted-foreground">
+              No active journeys
+            </div>
+          )}
+        </div>
       </TabsContent>
       
       {/* Completed journeys tab */}
-      <TabsContent value="completed" className="m-0 pt-1 flex-1 h-full overflow-hidden">
-        <ScrollArea className="h-full" orientation="vertical">
-          <div className="space-y-6 pr-4 pb-4">
-            {sortJourneys(journeys.filter(j => j.status === 'completed')).map((journey) => (
-              <div key={journey.id} className="mb-6 w-full">
-                <div className="flex items-center mb-2">
-                  <Badge className="mr-2 capitalize">
-                    {journey.type}
-                  </Badge>
-                  <span className="text-sm text-muted-foreground">
-                    Campaign Type: <span className="font-medium">{getJourneyTypeLabel(journey.type)}</span>
-                  </span>
-                </div>
+      <TabsContent value="completed" className="tabs-content">
+        <div className="space-y-6 pr-4 pb-4">
+          {sortJourneys(journeys.filter(j => j.status === 'completed')).map((journey) => (
+            <div key={journey.id} className="mb-6 w-full">
+              <div className="flex items-center mb-2">
+                <Badge className="mr-2 capitalize">
+                  {journey.type}
+                </Badge>
+                <span className="text-sm text-muted-foreground">
+                  Campaign Type: <span className="font-medium">{getJourneyTypeLabel(journey.type)}</span>
+                </span>
+              </div>
+              <div className="overflow-x-auto">
                 <HorizontalTimeline steps={journey.steps} />
               </div>
-            ))}
-            
-            {journeys.filter(j => j.status === 'completed').length === 0 && (
-              <div className="text-center py-8 text-muted-foreground">
-                No completed journeys
-              </div>
-            )}
-          </div>
-        </ScrollArea>
+            </div>
+          ))}
+          
+          {journeys.filter(j => j.status === 'completed').length === 0 && (
+            <div className="text-center py-8 text-muted-foreground">
+              No completed journeys
+            </div>
+          )}
+        </div>
       </TabsContent>
     </Tabs>
   );
