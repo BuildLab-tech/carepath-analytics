@@ -1,4 +1,4 @@
-export type JourneyType = 'prepay' | 'results' | 'guestpay' | 'appointment';
+export type JourneyType = 'prepay' | 'results' | 'guestpay' | 'appointment' | 'awo';
 
 export type JourneyStep = {
   id: string;
