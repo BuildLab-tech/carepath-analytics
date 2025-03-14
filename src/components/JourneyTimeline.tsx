@@ -1,5 +1,5 @@
 
-import { Journey } from "@/lib/mockData";
+import { Journey, JourneyType } from "@/lib/mockData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { JourneyStep } from "@/components/JourneyStep";
 import { Badge } from "@/components/ui/badge";
@@ -31,6 +31,8 @@ export function JourneyTimeline({ journey }: JourneyTimelineProps) {
         return 'Guest Payment';
       case 'appointment':
         return 'Appointment';
+      case 'awo':
+        return 'AWO';
       default:
         return type;
     }
@@ -55,7 +57,8 @@ export function JourneyTimeline({ journey }: JourneyTimelineProps) {
       journey.type === 'prepay' && "border-t-journey-prepay",
       journey.type === 'results' && "border-t-journey-results",
       journey.type === 'guestpay' && "border-t-journey-guestpay",
-      journey.type === 'appointment' && "border-t-blue-600"
+      journey.type === 'appointment' && "border-t-blue-600",
+      journey.type === 'awo' && "border-t-green-600"
     )}>
       <CardHeader className="pb-2">
         <div className="flex items-center">
@@ -66,7 +69,8 @@ export function JourneyTimeline({ journey }: JourneyTimelineProps) {
               journey.type === 'prepay' && "bg-journey-prepay/10 text-journey-prepay border-journey-prepay/20",
               journey.type === 'results' && "bg-journey-results/10 text-journey-results border-journey-results/20",
               journey.type === 'guestpay' && "bg-journey-guestpay/10 text-journey-guestpay border-journey-guestpay/20",
-              journey.type === 'appointment' && "bg-blue-600/10 text-blue-600 border-blue-600/20"
+              journey.type === 'appointment' && "bg-blue-600/10 text-blue-600 border-blue-600/20",
+              journey.type === 'awo' && "bg-green-600/10 text-green-600 border-green-600/20"
             )}
           >
             {getJourneyTypeLabel(journey.type)}
