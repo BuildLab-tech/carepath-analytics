@@ -23,7 +23,7 @@ export function PatientFilter({
 }: PatientFilterProps) {
   return (
     <div className="space-y-1.5">
-      <Label htmlFor="filter-section" className="text-sm font-medium">Filter Options</Label>
+      <Label htmlFor="filter-section" className="text-sm font-medium">Campaign Type</Label>
       <div className="grid grid-cols-2 gap-3">
         {/* Campaign type filter */}
         <div>
