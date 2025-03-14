@@ -1,5 +1,4 @@
-
-export type JourneyType = 'prepay' | 'results' | 'guestpay';
+export type JourneyType = 'prepay' | 'results' | 'guestpay' | 'appointment';
 
 export type JourneyStep = {
   id: string;
@@ -168,6 +167,113 @@ export const patients: Patient[] = [
             details: "Results campaign completed"
           }
         ]
+      },
+      {
+        id: "j7",
+        type: "appointment",
+        name: "Telehealth Appointment",
+        startDate: "2023-12-10T08:00:00",
+        status: "active",
+        steps: [
+          {
+            id: "s40",
+            name: "Appointment Create",
+            timestamp: "2023-12-10T08:00:00",
+            status: "completed",
+            details: "Initial appointment creation"
+          },
+          {
+            id: "s41",
+            name: "Telehealth",
+            timestamp: "2023-12-10T08:05:00",
+            status: "completed",
+            details: "Telehealth session scheduled"
+          },
+          {
+            id: "s42",
+            name: "Campaign Trigger",
+            timestamp: "2023-12-10T08:10:00",
+            status: "completed",
+            details: "Automated campaign initiated"
+          },
+          {
+            id: "s43",
+            name: "Campaign Init",
+            timestamp: "2023-12-10T08:15:00",
+            status: "completed",
+            details: "Campaign initialization"
+          },
+          {
+            id: "s44",
+            name: "Campaign Executing",
+            timestamp: "2023-12-10T08:20:00",
+            status: "completed",
+            details: "Campaign in execution phase"
+          },
+          {
+            id: "s45",
+            name: "Campaign in Transaction",
+            timestamp: "2023-12-10T08:25:00",
+            status: "completed",
+            details: "Processing campaign transaction"
+          },
+          {
+            id: "s46",
+            name: "Campaign Finish",
+            timestamp: "2023-12-10T08:30:00",
+            status: "completed",
+            details: "Campaign finished execution"
+          },
+          {
+            id: "s47",
+            name: "Message Composed",
+            timestamp: "2023-12-10T08:35:00",
+            status: "completed",
+            details: "Appointment message created"
+          },
+          {
+            id: "s48",
+            name: "Message Sent",
+            timestamp: "2023-12-10T08:40:00",
+            status: "completed",
+            details: "Appointment message sent"
+          },
+          {
+            id: "s49",
+            name: "Message Delivered",
+            timestamp: "2023-12-10T08:45:00",
+            status: "completed",
+            details: "Message delivered to patient"
+          },
+          {
+            id: "s50",
+            name: "Email Opened",
+            timestamp: "2023-12-10T09:30:00",
+            status: "completed",
+            details: "Patient opened the email"
+          },
+          {
+            id: "s51",
+            name: "Button Clicked",
+            timestamp: "2023-12-10T09:35:00",
+            status: "active",
+            details: "Patient clicked on appointment link"
+          },
+          {
+            id: "s52",
+            name: "Payment Init",
+            timestamp: "2023-12-10T09:40:00",
+            status: "active",
+            details: "Payment process initiated"
+          },
+          {
+            id: "s53",
+            name: "Payment Done",
+            timestamp: "",
+            status: "upcoming",
+            details: "Awaiting payment completion"
+          }
+        ]
       }
     ]
   },
@@ -282,6 +388,113 @@ export const patients: Patient[] = [
             timestamp: "2023-11-10T15:50:00",
             status: "completed",
             details: "Prepay campaign concluded"
+          }
+        ]
+      },
+      {
+        id: "j8",
+        type: "appointment",
+        name: "Follow-up Appointment",
+        startDate: "2023-12-08T13:00:00",
+        status: "completed",
+        steps: [
+          {
+            id: "s54",
+            name: "Appointment Create",
+            timestamp: "2023-12-08T13:00:00",
+            status: "completed",
+            details: "Initial appointment creation"
+          },
+          {
+            id: "s55",
+            name: "Telehealth",
+            timestamp: "2023-12-08T13:05:00",
+            status: "completed",
+            details: "Telehealth session scheduled"
+          },
+          {
+            id: "s56",
+            name: "Campaign Trigger",
+            timestamp: "2023-12-08T13:10:00",
+            status: "completed",
+            details: "Automated campaign initiated"
+          },
+          {
+            id: "s57",
+            name: "Campaign Init",
+            timestamp: "2023-12-08T13:15:00",
+            status: "completed",
+            details: "Campaign initialization"
+          },
+          {
+            id: "s58",
+            name: "Campaign Executing",
+            timestamp: "2023-12-08T13:20:00",
+            status: "completed",
+            details: "Campaign in execution phase"
+          },
+          {
+            id: "s59",
+            name: "Campaign in Transaction",
+            timestamp: "2023-12-08T13:25:00",
+            status: "completed",
+            details: "Processing campaign transaction"
+          },
+          {
+            id: "s60",
+            name: "Campaign Finish",
+            timestamp: "2023-12-08T13:30:00",
+            status: "completed",
+            details: "Campaign finished execution"
+          },
+          {
+            id: "s61",
+            name: "Message Composed",
+            timestamp: "2023-12-08T13:35:00",
+            status: "completed",
+            details: "Appointment message created"
+          },
+          {
+            id: "s62",
+            name: "Message Sent",
+            timestamp: "2023-12-08T13:40:00",
+            status: "completed",
+            details: "Appointment message sent"
+          },
+          {
+            id: "s63",
+            name: "Message Delivered",
+            timestamp: "2023-12-08T13:45:00",
+            status: "completed",
+            details: "Message delivered to patient"
+          },
+          {
+            id: "s64",
+            name: "Email Opened",
+            timestamp: "2023-12-08T14:15:00",
+            status: "completed",
+            details: "Patient opened the email"
+          },
+          {
+            id: "s65",
+            name: "Button Clicked",
+            timestamp: "2023-12-08T14:20:00",
+            status: "completed",
+            details: "Patient clicked on appointment link"
+          },
+          {
+            id: "s66",
+            name: "Payment Init",
+            timestamp: "2023-12-08T14:25:00",
+            status: "completed",
+            details: "Payment process initiated"
+          },
+          {
+            id: "s67",
+            name: "Payment Done",
+            timestamp: "2023-12-08T14:30:00",
+            status: "completed",
+            details: "Payment successfully completed"
           }
         ]
       }

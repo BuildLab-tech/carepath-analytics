@@ -29,6 +29,8 @@ export function JourneyTimeline({ journey }: JourneyTimelineProps) {
         return 'Results';
       case 'guestpay':
         return 'Guest Payment';
+      case 'appointment':
+        return 'Appointment';
       default:
         return type;
     }
@@ -52,7 +54,8 @@ export function JourneyTimeline({ journey }: JourneyTimelineProps) {
       "transition-all duration-300 hover:shadow-md animate-scale-in border-t-2",
       journey.type === 'prepay' && "border-t-journey-prepay",
       journey.type === 'results' && "border-t-journey-results",
-      journey.type === 'guestpay' && "border-t-journey-guestpay"
+      journey.type === 'guestpay' && "border-t-journey-guestpay",
+      journey.type === 'appointment' && "border-t-blue-600"
     )}>
       <CardHeader className="pb-2">
         <div className="flex items-center">
@@ -62,7 +65,8 @@ export function JourneyTimeline({ journey }: JourneyTimelineProps) {
               "font-normal",
               journey.type === 'prepay' && "bg-journey-prepay/10 text-journey-prepay border-journey-prepay/20",
               journey.type === 'results' && "bg-journey-results/10 text-journey-results border-journey-results/20",
-              journey.type === 'guestpay' && "bg-journey-guestpay/10 text-journey-guestpay border-journey-guestpay/20"
+              journey.type === 'guestpay' && "bg-journey-guestpay/10 text-journey-guestpay border-journey-guestpay/20",
+              journey.type === 'appointment' && "bg-blue-600/10 text-blue-600 border-blue-600/20"
             )}
           >
             {getJourneyTypeLabel(journey.type)}

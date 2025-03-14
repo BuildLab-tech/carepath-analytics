@@ -1,4 +1,3 @@
-
 import { JourneyStep as JourneyStepType } from "@/lib/mockData";
 import { cn } from "@/lib/utils";
 import { Check, Clock, Info, X } from "lucide-react";
@@ -6,7 +5,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 interface JourneyStepProps {
   step: JourneyStepType;
-  journeyType: 'prepay' | 'results' | 'guestpay';
+  journeyType: 'prepay' | 'results' | 'guestpay' | 'appointment';
 }
 
 export function JourneyStep({ step, journeyType }: JourneyStepProps) {
@@ -31,6 +30,8 @@ export function JourneyStep({ step, journeyType }: JourneyStepProps) {
         return 'text-journey-results';
       case 'guestpay':
         return 'text-journey-guestpay';
+      case 'appointment':
+        return 'text-blue-600';
       default:
         return 'text-journey-default';
     }
@@ -38,41 +39,27 @@ export function JourneyStep({ step, journeyType }: JourneyStepProps) {
   
   const getStepBackground = () => {
     const baseClasses = "journey-step-dot";
-    const statusClasses = {
-      completed: `bg-${journeyType === 'prepay' ? 'journey-prepay' : 
-                    journeyType === 'results' ? 'journey-results' : 
-                    journeyType === 'guestpay' ? 'journey-guestpay' : 
-                    'journey-default'}/10 text-${journeyType === 'prepay' ? 'journey-prepay' : 
-                    journeyType === 'results' ? 'journey-results' : 
-                    journeyType === 'guestpay' ? 'journey-guestpay' : 
-                    'journey-default'}`,
-      active: `bg-${journeyType === 'prepay' ? 'journey-prepay' : 
-                journeyType === 'results' ? 'journey-results' : 
-                journeyType === 'guestpay' ? 'journey-guestpay' : 
-                'journey-default'}/20 text-${journeyType === 'prepay' ? 'journey-prepay' : 
-                journeyType === 'results' ? 'journey-results' : 
-                journeyType === 'guestpay' ? 'journey-guestpay' : 
-                'journey-default'}`,
-      upcoming: "bg-muted/50 text-muted-foreground",
-      skipped: "bg-muted/30 text-muted-foreground"
-    };
     
     return cn(baseClasses, 
       step.status === 'completed' ? 
         `bg-${journeyType === 'prepay' ? 'journey-prepay' : 
           journeyType === 'results' ? 'journey-results' : 
           journeyType === 'guestpay' ? 'journey-guestpay' : 
+          journeyType === 'appointment' ? 'blue-600' :
           'journey-default'}/10 text-${journeyType === 'prepay' ? 'journey-prepay' : 
           journeyType === 'results' ? 'journey-results' : 
           journeyType === 'guestpay' ? 'journey-guestpay' : 
+          journeyType === 'appointment' ? 'blue-600' :
           'journey-default'}` : 
       step.status === 'active' ? 
         `bg-${journeyType === 'prepay' ? 'journey-prepay' : 
           journeyType === 'results' ? 'journey-results' : 
           journeyType === 'guestpay' ? 'journey-guestpay' : 
+          journeyType === 'appointment' ? 'blue-600' :
           'journey-default'}/20 text-${journeyType === 'prepay' ? 'journey-prepay' : 
           journeyType === 'results' ? 'journey-results' : 
           journeyType === 'guestpay' ? 'journey-guestpay' : 
+          journeyType === 'appointment' ? 'blue-600' :
           'journey-default'}` : 
       step.status === 'upcoming' ? 
         "bg-muted/50 text-muted-foreground" : 
@@ -99,7 +86,8 @@ export function JourneyStep({ step, journeyType }: JourneyStepProps) {
         step.status === 'active' && journeyType === 'prepay' && "ring-journey-prepay/30",
         step.status === 'active' && journeyType === 'results' && "ring-journey-results/30",
         step.status === 'active' && journeyType === 'guestpay' && "ring-journey-guestpay/30",
-        step.status === 'active' && journeyType !== 'prepay' && journeyType !== 'results' && journeyType !== 'guestpay' && "ring-journey-default/30"
+        step.status === 'active' && journeyType === 'appointment' && "ring-blue-600/30",
+        step.status === 'active' && journeyType !== 'prepay' && journeyType !== 'results' && journeyType !== 'guestpay' && journeyType !== 'appointment' && "ring-journey-default/30"
       )}>
         {getStepIcon()}
       </div>

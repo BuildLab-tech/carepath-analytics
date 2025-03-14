@@ -90,12 +90,16 @@ export function PatientJourney({ patientId, dateFilter, contextId = "" }: Patien
     : filteredBySearch.filter(patient => {
         // Simple mock filtering for the demo
         switch(campaignType) {
+          case "appointment": 
+            return patient.journeys.some(j => j.type === "appointment");
           case "prepay": 
             return patient.journeys.some(j => j.type === "prepay");
-          case "results": 
+          case "resultcall": 
             return patient.journeys.some(j => j.type === "results");
           case "guestpay": 
             return patient.journeys.some(j => j.type === "guestpay");
+          case "awo":
+            return patient.journeys.some(j => j.type === "awo");
           default:
             return true;
         }
