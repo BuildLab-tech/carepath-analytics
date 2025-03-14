@@ -1,6 +1,6 @@
 
 import React from "react";
-import { User, ActivitySquare, Clock, CheckCircle } from "lucide-react";
+import { User, ActivitySquare, Clock, CheckCircle, Calendar, ShoppingCart, MailOpen, CreditCard } from "lucide-react";
 import { StatsCard } from "@/components/StatsCard";
 import { Patient } from "@/lib/mockData";
 
@@ -26,10 +26,13 @@ export function PatientStats({ filteredPatients }: PatientStatsProps) {
       acc + patient.journeys.filter(j => j.status === 'completed').length, 0);
     
     // Count journeys by type
+    const appointmentJourneys = filteredPatients.reduce((acc, patient) => 
+      acc + patient.journeys.filter(j => j.type === 'appointment').length, 0);
+    
     const prepayJourneys = filteredPatients.reduce((acc, patient) => 
       acc + patient.journeys.filter(j => j.type === 'prepay').length, 0);
     
-    const resultsJourneys = filteredPatients.reduce((acc, patient) => 
+    const resultCallJourneys = filteredPatients.reduce((acc, patient) => 
       acc + patient.journeys.filter(j => j.type === 'results').length, 0);
     
     const guestpayJourneys = filteredPatients.reduce((acc, patient) => 
@@ -42,8 +45,9 @@ export function PatientStats({ filteredPatients }: PatientStatsProps) {
       totalJourneys,
       activeJourneys,
       completedJourneys,
+      appointmentJourneys,
       prepayJourneys,
-      resultsJourneys,
+      resultCallJourneys,
       guestpayJourneys,
       completionRate
     };
@@ -85,7 +89,13 @@ export function PatientStats({ filteredPatients }: PatientStatsProps) {
       </div>
       
       {/* Campaign Type Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
+        <StatsCard 
+          title="Appointment Journeys" 
+          value={stats.appointmentJourneys}
+          journeyType="appointment"
+          description="Scheduled appointment journeys"
+        />
         <StatsCard 
           title="Prepay Journeys" 
           value={stats.prepayJourneys}
@@ -93,9 +103,9 @@ export function PatientStats({ filteredPatients }: PatientStatsProps) {
           description="Pre-payment campaign journeys"
         />
         <StatsCard 
-          title="Results Journeys" 
-          value={stats.resultsJourneys}
-          journeyType="results"
+          title="ResultCall Journeys" 
+          value={stats.resultCallJourneys}
+          journeyType="resultcall"
           description="Results notification journeys"
         />
         <StatsCard 
